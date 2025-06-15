@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>REPRESENTACIONES COMERCIALES SiLES SAC</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: #f5f7fa;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+  }
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #4a90e2, #50e3c2);
+    color: white;
+    padding: 16px 20px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+  }
+  header h1 {
+    font-weight: 700;
+    font-size: 1.7rem;
+  }
+  #logoutBtn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    visibility: hidden; /* hidden before login */
+  }
+  #logoutBtn.visible {
+    visibility: visible;
+  }
+  #logoutBtn:hover {
+    color: #a9e6d9;
+  }
+  /* CONTAINER */
+  #appContainer {
+    flex: 1 1 auto;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    display: none; /* hidden before login */
+  }
+  #appContainer.visible {
+    display: flex; /* show after login */
+  }
+  /* LOGIN SCREEN */
+  #loginScreen {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #loginForm {
+    background: white;
+    padding: 32px 28px;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(74,144,226,0.15);
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  #loginForm h2 {
+    text-align: center;
+    font-weight: 700;
+    color: #4a90e2;
+  }
+  #loginForm label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  #loginForm input {
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1.8px solid #ccc;
+    transition: border-color 0.25s ease;
+  }
+  #loginForm input:focus {
+    outline: none;
+    border-color: #50e3c2;
+    box-shadow: 0 0 10px #50e3c2aa;
+  }
+  #loginForm button {
+    background: #4a90e2;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    padding: 14px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  #loginForm button:hover {
+    background: #357abd;
+  }
+  #loginError {
+    color: #cc4b37;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+  }
+  /* TABS NAV */
+  #tabsNav {
+    display: flex;
+    gap: 20px;
+    border-bottom: 3px solid #4a90e2;
+    visibility: hidden; /* hide before login */
+  }
+  #tabsNav.visible {
+    visibility: visible;
+  }
+  #tabsNav button {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 12px 10px;
+    border-bottom: 4px solid transparent;
+    cursor: pointer;
+    color: #4a90e2;
+    transition: border-color 0.3s ease;
+  }
+  #tabsNav button:hover,
+  #tabsNav button.active {
+    border-bottom-color: #50e3c2;
+    color: #50e3c2;
+  }
+  /* TAB CONTENT */
+  .tabContent {
+    display: none;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(74,144,226,0.15);
+    padding: 20px 24px;
+    flex-direction: column;
+    min-height: 400px;
+    overflow-y: auto;
+  }
+  .tabContent.active {
+    display: flex;
+  }
+  /* --- Inventory Tab --- */
+  #filtersSection {
+    background: white;
+    padding: 20px 24px;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(74,144,226,0.15);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 24px;
+  }
+  #filtersSection > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  #filtersSection label {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  #filtersSection input, #filtersSection select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.25s ease;
+  }
+  #filtersSection input:focus, #filtersSection select:focus {
+    outline: none;
+    border-color: #50e3c2;
+    box-shadow: 0 0 8px #50e3c2aa;
+  }
+  #filtersSection button {
+    background: #50e3c2;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 1rem;
+    justify-self: start;
+  }
+  #filtersSection button:hover {
+    background: #3bbba9;
+  }
+  /* Inventory Table styles */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: auto;
+    font-size: 0.9rem;
+  }
+  thead tr {
+    background: #50e3c2;
+    color: white;
+    font-weight: 600;
+  }
+  thead tr th {
+    padding: 12px 15px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+  }
+  tbody tr:hover {
+    background: #f0faf9;
+  }
+  tbody tr td {
+    padding: 10px 15px;
+    white-space: nowrap;
+  }
+  .actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    color: #4a90e2;
+    font-size: 20px;
+    transition: color 0.25s ease;
+  }
+  .actions button:hover {
+    color: #357abd;
+  }
+  /* Forms styles (additions / removals) */
+  form.flexForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  form.flexForm > div {
+    flex: 1 1 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  form.flexForm label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  form.flexForm input, form.flexForm select {
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1.8px solid #ccc;
+    transition: border-color 0.25s ease;
+  }
+  form.flexForm input:focus, form.flexForm select:focus {
+    outline: none;
+    border-color: #50e3c2;
+    box-shadow: 0 0 10px #50e3c2aa;
+  }
+  form.flexForm button {
+    background: #4a90e2;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+  }
+  form.flexForm button:hover:not(:disabled) {
+    background: #357abd;
+  }
+  form.flexForm button:disabled {
+    background: #a0bffb;
+    cursor: not-allowed;
+  }
+  /* Logs tables */
+  .logTable {
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 12px;
+  }
+  .logTable table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .logTable thead tr {
+    background: #4a90e2;
+    color: white;
+    font-weight: 600;
+  }
+  .logTable thead tr th, .logTable tbody tr td {
+    padding: 8px 10px;
+    white-space: nowrap;
+    border-bottom: 1px solid #e0edf0;
+  }
+  .logTable tbody tr:nth-child(odd) {
+    background: #f5fbfa;
+  }
+  /* Scrollbar for log tables */
+  .logTable::-webkit-scrollbar {
+    height: 8px;
+  }
+  .logTable::-webkit-scrollbar-track {
+    background: #e9f3f5;
+    border-radius: 6px;
+  }
+  .logTable::-webkit-scrollbar-thumb {
+    background-color: #50e3c2;
+    border-radius: 6px;
+  }
+  /* Responsive */
+  @media (max-width: 760px) {
+    #appContainer {
+      padding: 24px 12px 40px;
+    }
+    #filtersSection {
+      grid-template-columns: 1fr;
+      gap: 16px 0;
+      margin-bottom: 16px;
+    }
+    table thead tr th, table tbody tr td {
+      font-size: 0.8rem;
+      padding: 7px 8px;
+    }
+    form.flexForm > div {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+</head>
+<body>
+<header role="banner" aria-label="Encabezado principal de la aplicación">
+  <h1>REPRESENTACIONES COMERCIALES SiLES SAC</h1>
+  <button id="logoutBtn" title="Cerrar sesión" aria-label="Cerrar sesión"><span class="material-icons">logout</span>Salir</button>
+</header>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" role="main" aria-live="polite" aria-atomic="true">
+  <form id="loginForm" aria-labelledby="loginTitle" autocomplete="off" novalidate>
+    <h2 id="loginTitle">Ingreso al Sistema</h2>
+    <label for="loginId">ID de usuario</label>
+    <input type="text" id="loginId" name="loginId" aria-required="true" required autocomplete="username" placeholder="pablo2912 o rcs.siles" />
+    <label for="loginPassword">Contraseña</label>
+    <input type="password" id="loginPassword" name="loginPassword" aria-required="true" required autocomplete="current-password" placeholder="Clave" />
+    <button type="submit" aria-label="Ingresar al sistema">Ingresar</button>
+    <div id="loginError" role="alert"></div>
+  </form>
+</div>
+<!-- MAIN APP -->
+<div id="appContainer" aria-label="Aplicación de optimización de inventario" >
+  <!-- TABS -->
+  <nav id="tabsNav" role="tablist" aria-label="Navegación de pestañas de la aplicación">
+    <button role="tab" aria-selected="true" aria-controls="tabInventory" id="tabBtnInventory" class="active" tabindex="0">Inventario</button>
+    <button role="tab" aria-selected="false" aria-controls="tabEntradas" id="tabBtnEntradas" tabindex="-1">Entradas</button>
+    <button role="tab" aria-selected="false" aria-controls="tabSalidas" id="tabBtnSalidas" tabindex="-1">Salidas</button>
+  </nav>
+  <!-- INVENTORY TAB -->
+  <section id="tabInventory" class="tabContent active" tabindex="0" role="tabpanel" aria-labelledby="tabBtnInventory">
+    <!-- Filters -->
+    <section id="filtersSection" aria-live="polite" aria-atomic="true">
+      <div>
+        <label for="filterMaterialName">Tipo de madera</label>
+        <select id="filterMaterialName" aria-label="Filtrar por tipo de madera">
+          <option value="" selected>Todos</option>
+        </select>
+      </div>
+      <div>
+        <label for="filterLengthMin">Largo mínimo (pies)</label>
+        <input type="number" id="filterLengthMin" min="0" step="0.01" placeholder="Min" aria-label="Filtrar largo mínimo en pies" />
+      </div>
+      <div>
+        <label for="filterLengthMax">Largo máximo (pies)</label>
+        <input type="number" id="filterLengthMax" min="0" step="0.01" placeholder="Max" aria-label="Filtrar largo máximo en pies" />
+      </div>
+      <div>
+        <label for="filterWidthMin">Ancho mínimo (pulgadas)</label>
+        <input type="number" id="filterWidthMin" min="0" step="0.01" placeholder="Min" aria-label="Filtrar ancho mínimo en pulgadas" />
+      </div>
+      <div>
+        <label for="filterWidthMax">Ancho máximo (pulgadas)</label>
+        <input type="number" id="filterWidthMax" min="0" step="0.01" placeholder="Max" aria-label="Filtrar ancho máximo en pulgadas" />
+      </div>
+      <div>
+        <label for="filterThicknessMin">Espesor mínimo (pulgadas)</label>
+        <input type="number" id="filterThicknessMin" min="0" step="0.01" placeholder="Min" aria-label="Filtrar espesor mínimo en pulgadas" />
+      </div>
+      <div>
+        <label for="filterThicknessMax">Espesor máximo (pulgadas)</label>
+        <input type="number" id="filterThicknessMax" min="0" step="0.01" placeholder="Max" aria-label="Filtrar espesor máximo en pulgadas" />
+      </div>
+      <div>
+        <button id="clearFiltersBtn" aria-label="Limpiar filtros">Limpiar filtros</button>
+      </div>
+      <div>
+        <button id="downloadReportBtn" aria-label="Descargar reporte en Excel">Descargar reporte Excel</button>
+      </div>
+    </section>
+    <!-- Inventory Table -->
+    <section aria-labelledby="inventoryTitle" class="inventory-section" style="margin-top:24px;">
+      <h2 id="inventoryTitle">Inventario actual</h2>
+      <table role="table" aria-describedby="inventoryTitle">
+        <thead>
+          <tr>
+            <th scope="col">Material</th>
+            <th scope="col">Unidades</th>
+            <th scope="col">Largo (pies)</th>
+            <th scope="col">Ancho (pulg)</th>
+            <th scope="col">Espesor (pulg)</th>
+            <th scope="col">Pies²</th>
+            <th scope="col">Ubicación</th>
+            <th scope="col" class="actions" aria-label="Acciones">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="inventoryTableBody" role="rowgroup">
+          <!-- inventory rows -->
+        </tbody>
+      </table>
+    </section>
+    <!-- Add Material Form only visible to admin -->
+    <form id="addMaterialForm" aria-describedby="addMaterialDesc" autocomplete="off" novalidate style="margin-top:32px;">
+      <h3 style="color:#4a90e2; margin-bottom:16px;">Agregar Nuevo Material</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px;">
+        <div>
+          <label for="materialName">Nombre del material</label>
+          <input type="text" id="materialName" name="materialName" placeholder="Ej: Tablón de pino" aria-required="true" />
+        </div>
+        <div>
+          <label for="unitCount">Unidades</label>
+          <input type="number" id="unitCount" name="unitCount" min="1" placeholder="Cantidad" aria-required="true" />
+        </div>
+        <div>
+          <label for="length">Largo (pies)</label>
+          <input type="number" id="length" name="length" min="0.1" step="0.01" placeholder="Ej: 8.0" aria-required="true" />
+        </div>
+        <div>
+          <label for="width">Ancho (pulgadas)</label>
+          <input type="number" id="width" name="width" min="0.1" step="0.01" placeholder="Ej: 48.0" aria-required="true" />
+        </div>
+        <div>
+          <label for="thickness">Espesor (pulgadas)</label>
+          <input type="number" id="thickness" name="thickness" min="0.1" step="0.01" placeholder="Ej: 1.5" aria-required="true" />
+        </div>
+        <div>
+          <label for="location">Ubicación</label>
+          <input type="text" id="location" name="location" placeholder="Ej: Bodega A" aria-required="true" />
+        </div>
+        <div>
+          <label for="totalSqft">Pies cuadrados totales</label>
+          <input type="text" id="totalSqft" name="totalSqft" readonly aria-readonly="true" />
+        </div>
+        <div>
+          <button type="submit" id="addMaterialBtn" aria-label="Agregar material al inventario">Agregar Material</button>
+        </div>
+      </div>
+    </form>
+  </section>
+  <!-- ENTRADAS TAB -->
+  <section id="tabEntradas" class="tabContent" tabindex="0" role="tabpanel" aria-labelledby="tabBtnEntradas">
+    <h2>Registro de Entradas (agregados)</h2>
+    <form id="entradaForm" class="flexForm" aria-label="Formulario para registrar entrada de materiales" autocomplete="off" novalidate>
+      <div>
+        <label for="entradaMaterial">Material</label>
+        <select id="entradaMaterial" name="entradaMaterial" aria-required="true"></select>
+      </div>
+      <div>
+        <label for="entradaQuantity">Cantidad</label>
+        <input type="number" id="entradaQuantity" name="entradaQuantity" min="1" step="1" aria-required="true" />
+      </div>
+      <div style="align-self:center;">
+        <button type="submit" aria-label="Registrar entrada de material">Registrar Entrada</button>
+      </div>
+    </form>
+    <section class="logTable" aria-label="Tabla de registros de entradas">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha y hora</th>
+            <th>Material</th>
+            <th>Cantidad</th>
+            <th>Usuario</th>
+          </tr>
+        </thead>
+        <tbody id="entradaLogBody"></tbody>
+      </table>
+    </section>
+  </section>
+  <!-- SALIDAS TAB -->
+  <section id="tabSalidas" class="tabContent" tabindex="0" role="tabpanel" aria-labelledby="tabBtnSalidas">
+    <h2>Registro de Salidas (descuentos)</h2>
+    <form id="salidaForm" class="flexForm" aria-label="Formulario para registrar salida de materiales" autocomplete="off" novalidate>
+      <div>
+        <label for="salidaMaterial">Material</label>
+        <select id="salidaMaterial" name="salidaMaterial" aria-required="true"></select>
+      </div>
+      <div>
+        <label for="salidaQuantity">Cantidad</label>
+        <input type="number" id="salidaQuantity" name="salidaQuantity" min="1" step="1" aria-required="true" />
+      </div>
+      <div style="align-self:center;">
+        <button type="submit" aria-label="Registrar salida de material">Registrar Salida</button>
+      </div>
+    </form>
+    <section class="logTable" aria-label="Tabla de registros de salidas">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha y hora</th>
+            <th>Material</th>
+            <th>Cantidad</th>
+            <th>Usuario</th>
+          </tr>
+        </thead>
+        <tbody id="salidaLogBody"></tbody>
+      </table>
+    </section>
+  </section>
+</div>
+<script>
+  const users = [
+    { id: 'pablo2912', password: 'Oficina 1', role: 'admin', name: 'Administrador' },
+    { id: 'rcs.siles', password: '123456', role: 'user', name: 'Usuario' }
+  ];
+  const loginScreen = document.getElementById('loginScreen');
+  const loginForm = document.getElementById('loginForm');
+  const loginIdInput = document.getElementById('loginId');
+  const loginPasswordInput = document.getElementById('loginPassword');
+  const loginError = document.getElementById('loginError');
+  const appContainer = document.getElementById('appContainer');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const tabsNav = document.getElementById('tabsNav');
+  const tabBtnInventory = document.getElementById('tabBtnInventory');
+  const tabBtnEntradas = document.getElementById('tabBtnEntradas');
+  const tabBtnSalidas = document.getElementById('tabBtnSalidas');
+  const tabInventory = document.getElementById('tabInventory');
+  const tabEntradas = document.getElementById('tabEntradas');
+  const tabSalidas = document.getElementById('tabSalidas');
+  const addMaterialForm = document.getElementById('addMaterialForm');
+  const materialNameInput = document.getElementById('materialName');
+  const unitCountInput = document.getElementById('unitCount');
+  const lengthInput = document.getElementById('length');
+  const widthInput = document.getElementById('width');
+  const thicknessInput = document.getElementById('thickness');
+  const locationInput = document.getElementById('location');
+  const totalSqftInput = document.getElementById('totalSqft');
+  const inventoryTableBody = document.getElementById('inventoryTableBody');
+  const filterMaterialName = document.getElementById('filterMaterialName');
+  const filterLengthMinInput = document.getElementById('filterLengthMin');
+  const filterLengthMaxInput = document.getElementById('filterLengthMax');
+  const filterWidthMinInput = document.getElementById('filterWidthMin');
+  const filterWidthMaxInput = document.getElementById('filterWidthMax');
+  const filterThicknessMinInput = document.getElementById('filterThicknessMin');
+  const filterThicknessMaxInput = document.getElementById('filterThicknessMax');
+  const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+  const entradaForm = document.getElementById('entradaForm');
+  const entradaMaterialSelect = document.getElementById('entradaMaterial');
+  const entradaQuantityInput = document.getElementById('entradaQuantity');
+  const entradaLogBody = document.getElementById('entradaLogBody');
+  const salidaForm = document.getElementById('salidaForm');
+  const salidaMaterialSelect = document.getElementById('salidaMaterial');
+  const salidaQuantityInput = document.getElementById('salidaQuantity');
+  const salidaLogBody = document.getElementById('salidaLogBody');
+  let currentUser = null;
+  const STORAGE_KEYS = {
+    INVENTORY: 'maderera_inventory',
+    LOGS: 'maderera_logs',
+    CURRENT_USER: 'maderera_current_user'
+  };
+  let inventory = [];
+  let logs = [];
+  function loadFromStorage() {
+    const invRaw = localStorage.getItem(STORAGE_KEYS.INVENTORY);
+    const logsRaw = localStorage.getItem(STORAGE_KEYS.LOGS);
+    const userRaw = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+    inventory = invRaw ? JSON.parse(invRaw) : [];
+    logs = logsRaw ? JSON.parse(logsRaw) : [];
+    currentUser = userRaw ? JSON.parse(userRaw) : null;
+  }
+  function saveToStorage() {
+    localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(inventory));
+    localStorage.setItem(STORAGE_KEYS.LOGS, JSON.stringify(logs));
+    localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+  }
+  function showLoginScreen() {
+    loginScreen.style.display = 'flex';
+    appContainer.classList.remove('visible');
+    appContainer.style.display = 'none';
+    logoutBtn.classList.remove('visible');
+    logoutBtn.style.visibility = 'hidden';
+    loginError.style.display = 'none';
+    loginForm.reset();
+    loginIdInput.focus();
+  }
+  function showAppScreen() {
+    loginScreen.style.display = 'none';
+    appContainer.classList.add('visible');
+    appContainer.style.display = 'flex';
+    logoutBtn.classList.add('visible');
+    logoutBtn.style.visibility = 'visible';
+    tabsNav.classList.add('visible');
+    updateUIForRole();
+    renderInventoryTable();
+    populateMaterialTypeFilter();
+    populateMaterialSelects();
+    renderLogs();
+  }
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const idVal = loginIdInput.value.trim().toLowerCase();
+    const passwordVal = loginPasswordInput.value;
+    const user = users.find(u => u.id.toLowerCase() === idVal && u.password === passwordVal);
+    if(user) {
+      currentUser = { id: user.id, role: user.role, name: user.name };
+      saveToStorage();
+      showAppScreen();
+    } else {
+      loginError.textContent = 'ID o contraseña incorrectos.';
+      loginError.style.display = 'block';
+    }
+  });
+  logoutBtn.addEventListener('click', () => {
+    currentUser = null;
+    saveToStorage();
+    showLoginScreen();
+  });
+  function updateUIForRole() {
+    const isAdmin = currentUser?.role === 'admin';
+    addMaterialForm.style.display = isAdmin ? 'grid' : 'none';
+    entradaForm.style.display = isAdmin ? 'flex' : 'none';
+    salidaForm.style.display = 'flex';
+  }
+  function calculateSqft(length, width, thickness) {
+    return +((length * width * thickness) / 12).toFixed(3);
+  }
+  function calculateTotalSqft(units, sqftPerUnit) {
+    return +(units * sqftPerUnit).toFixed(3);
+  }
+  function updateTotalSqftField() {
+    const lengthVal = parseFloat(lengthInput.value);
+    const widthVal = parseFloat(widthInput.value);
+    const thicknessVal = parseFloat(thicknessInput.value);
+    const unitsVal = parseInt(unitCountInput.value);
+    if (!isNaN(lengthVal) && !isNaN(widthVal) && !isNaN(thicknessVal) && !isNaN(unitsVal)) {
+      const sqftPerUnit = calculateSqft(lengthVal, widthVal, thicknessVal);
+      const totalSqft = calculateTotalSqft(unitsVal, sqftPerUnit);
+      totalSqftInput.value = totalSqft + ' pies²';
+    } else {
+      totalSqftInput.value = '';
+    }
+  }
+  lengthInput.addEventListener('input', updateTotalSqftField);
+  widthInput.addEventListener('input', updateTotalSqftField);
+  thicknessInput.addEventListener('input', updateTotalSqftField);
+  unitCountInput.addEventListener('input', updateTotalSqftField);
+  function renderInventoryTable() {
+    const filteredInventory = filterInventory(inventory);
+    inventoryTableBody.innerHTML = '';
+    if(filteredInventory.length === 0) {
+      inventoryTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; font-style: italic; color:#666;">No hay materiales que coincidan con los filtros.</td></tr>`;
+      return;
+    }
+    filteredInventory.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.materialName}</td>
+        <td>${item.units}</td>
+        <td>${item.length.toFixed(2)}</td>
+        <td>${item.width.toFixed(2)}</td>
+        <td>${item.thickness.toFixed(2)}</td>
+        <td>${item.totalSqft.toFixed(3)}</td>
+        <td>${item.location}</td>
+        <td class="actions">
+          <button title="Eliminar material" aria-label="Eliminar material" data-id="${item.id}"><span class="material-icons">delete</span></button>
+        </td>
+      `;
+      inventoryTableBody.appendChild(tr);
+    });
+  }
+  function filterInventory(items) {
+    return items.filter(item => {
+      if(filterMaterialName.value && item.materialName !== filterMaterialName.value) return false;
+      if(filterLengthMinInput.value && item.length < parseFloat(filterLengthMinInput.value)) return false;
+      if(filterLengthMaxInput.value && item.length > parseFloat(filterLengthMaxInput.value)) return false;
+      if(filterWidthMinInput.value && item.width < parseFloat(filterWidthMinInput.value)) return false;
+      if(filterWidthMaxInput.value && item.width > parseFloat(filterWidthMaxInput.value)) return false;
+      if(filterThicknessMinInput.value && item.thickness < parseFloat(filterThicknessMinInput.value)) return false;
+      if(filterThicknessMaxInput.value && item.thickness > parseFloat(filterThicknessMaxInput.value)) return false;
+      return true;
+    });
+  }
+  [filterMaterialName, filterLengthMinInput, filterLengthMaxInput, filterWidthMinInput, filterWidthMaxInput, filterThicknessMinInput, filterThicknessMaxInput].forEach(input => {
+    input.addEventListener('input', () => {
+      renderInventoryTable();
+    });
+  });
+  clearFiltersBtn.addEventListener('click', () => {
+    filterMaterialName.value = '';
+    filterLengthMinInput.value = '';
+    filterLengthMaxInput.value = '';
+    filterWidthMinInput.value = '';
+    filterWidthMaxInput.value = '';
+    filterThicknessMinInput.value = '';
+    filterThicknessMaxInput.value = '';
+    renderInventoryTable();
+  });
+  addMaterialForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if(currentUser?.role !== 'admin') {
+      alert('No tienes permisos para agregar materiales.');
+      return;
+    }
+    const materialName = materialNameInput.value.trim();
+    const units = parseInt(unitCountInput.value);
+    const length = parseFloat(lengthInput.value);
+    const width = parseFloat(widthInput.value);
+    const thickness = parseFloat(thicknessInput.value);
+    const location = locationInput.value.trim();
+    if (!materialName || !units || !length || !width || !thickness || !location) {
+      alert('Completa todos los campos correctamente.');
+      return;
+    }
+    const existingIndex = inventory.findIndex(i =>
+      i.materialName.toLowerCase() === materialName.toLowerCase()
+      && i.length === length
+      && i.width === width
+      && i.thickness === thickness
+      && i.location.toLowerCase() === location.toLowerCase()
+    );
+    const sqftPerUnit = calculateSqft(length, width, thickness);
+    if(existingIndex >= 0) {
+      inventory[existingIndex].units += units;
+      inventory[existingIndex].totalSqft = calculateTotalSqft(inventory[existingIndex].units, sqftPerUnit);
+    } else {
+      inventory.push({
+        id: crypto.randomUUID(),
+        materialName,
+        units,
+        length,
+        width,
+        thickness,
+        sqftPerUnit,
+        totalSqft: calculateTotalSqft(units, sqftPerUnit),
+        location
+      });
+    }
+    addLogEntry('entrada', inventory.find(i => i.materialName.toLowerCase() === materialName.toLowerCase() && i.length === length && i.width === width && i.thickness === thickness && i.location.toLowerCase() === location.toLowerCase()).id, units);
+    saveToStorage();
+    renderInventoryTable();
+    renderLogs();
+    populateMaterialTypeFilter();
+    populateMaterialSelects();
+    addMaterialForm.reset();
+    totalSqftInput.value = '';
+    materialNameInput.focus();
+  });
+  inventoryTableBody.addEventListener('click', e => {
+    if(e.target.matches('button,button *')) {
+      const btn = e.target.closest('button');
+      const id = btn.getAttribute('data-id');
+      if(!id) return;
+      if(currentUser?.role !== 'admin') {
+        alert('No tienes permisos para eliminar materiales.');
+        return;
+      }
+      if(confirm('¿Seguro deseas eliminar este material y todo su historial?')) {
+        inventory = inventory.filter(i => i.id !== id);
+        logs = logs.filter(l => l.materialId !== id);
+        saveToStorage();
+        renderInventoryTable();
+        renderLogs();
+        populateMaterialTypeFilter();
+        populateMaterialSelects();
+      }
+    }
+  });
+  function addLogEntry(type, materialId, quantity) {
+    logs.push({
+      id: crypto.randomUUID(),
+      materialId,
+      type,
+      quantity,
+      userId: currentUser?.id ?? 'unknown',
+      timestamp: new Date().toISOString()
+    });
+  }
+  function renderLogs() {
+    renderEntradaLog();
+    renderSalidaLog();
+  }
+  function renderEntradaLog() {
+    entradaLogBody.innerHTML = '';
+    const entradas = logs.filter(l => l.type === 'entrada').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    if(entradas.length === 0) {
+      entradaLogBody.innerHTML = `<tr><td colspan="4" style="text-align:center; font-style: italic; color:#666;">No hay entradas registradas.</td></tr>`;
+      return;
+    }
+    entradas.forEach(logItem => {
+      const material = inventory.find(i => i.id === logItem.materialId);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${new Date(logItem.timestamp).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</td>
+        <td>${material ? material.materialName : '[Eliminado]'}</td>
+        <td>${logItem.quantity}</td>
+        <td>${getUserDisplayName(logItem.userId)}</td>
+      `;
+      entradaLogBody.appendChild(tr);
+    });
+  }
+  function renderSalidaLog() {
+    salidaLogBody.innerHTML = '';
+    const salidas = logs.filter(l => l.type === 'salida').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    if(salidas.length === 0) {
+      salidaLogBody.innerHTML = `<tr><td colspan="4" style="text-align:center; font-style: italic; color:#666;">No hay salidas registradas.</td></tr>`;
+      return;
+    }
+    salidas.forEach(logItem => {
+      const material = inventory.find(i => i.id === logItem.materialId);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${new Date(logItem.timestamp).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</td>
+        <td>${material ? material.materialName : '[Eliminado]'}</td>
+        <td>${logItem.quantity}</td>
+        <td>${getUserDisplayName(logItem.userId)}</td>
+      `;
+      salidaLogBody.appendChild(tr);
+    });
+  }
+  function getUserDisplayName(userId) {
+    if(userId === 'unknown') return 'Desconocido';
+    const user = users.find(u => u.id === userId);
+    return user ? user.name : 'Desconocido';
+  }
+  function populateMaterialTypeFilter() {
+    const uniqueMaterials = [...new Set(inventory.map(i => i.materialName))].sort((a,b) => a.localeCompare(b));
+    const currentSelection = filterMaterialName.value;
+    filterMaterialName.innerHTML = '<option value="" selected>Todos</option>';
+    uniqueMaterials.forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      filterMaterialName.appendChild(opt);
+    });
+    if(uniqueMaterials.includes(currentSelection)) {
+      filterMaterialName.value = currentSelection;
+    }
+  }
+  function populateMaterialSelects() {
+    populateSelect(entradaMaterialSelect);
+    populateSelect(salidaMaterialSelect);
+  }
+  function populateSelect(selectElem) {
+    selectElem.innerHTML = '';
+    if(inventory.length === 0) {
+      const optionNone = document.createElement('option');
+      optionNone.value = '';
+      optionNone.textContent = '(No hay materiales)';
+      optionNone.disabled = true;
+      selectElem.appendChild(optionNone);
+      selectElem.disabled = true;
+      return;
+    }
+    selectElem.disabled = false;
+    const optionDefault = document.createElement('option');
+    optionDefault.value = '';
+    optionDefault.textContent = '-- Selecciona un material --';
+    optionDefault.selected = true;
+    optionDefault.disabled = true;
+    selectElem.appendChild(optionDefault);
+    inventory.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = `${item.materialName} (Unidades: ${item.units})`;
+      selectElem.appendChild(option);
+    });
+  }
+  entradaForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if(currentUser?.role !== 'admin') {
+      alert('No tienes permisos para registrar entradas.');
+      return;
+    }
+    const materialId = entradaMaterialSelect.value;
+    const quantity = parseInt(entradaQuantityInput.value);
+    if(!materialId) {
+      alert('Selecciona un material válido.');
+      return;
+    }
+    if(isNaN(quantity) || quantity < 1) {
+      alert('Ingresa una cantidad válida mayor que cero.');
+      return;
+    }
+    const material = inventory.find(i => i.id === materialId);
+    if(!material) {
+      alert('Material no encontrado.');
+      return;
+    }
+    material.units += quantity;
+    material.totalSqft = calculateTotalSqft(material.units, material.sqftPerUnit);
+    addLogEntry('entrada', materialId, quantity);
+    saveToStorage();
+    renderInventoryTable();
+    renderLogs();
+    populateMaterialTypeFilter();
+    populateMaterialSelects();
+    entradaForm.reset();
+    entradaMaterialSelect.focus();
+  });
+  salidaForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const materialId = salidaMaterialSelect.value;
+    const quantity = parseInt(salidaQuantityInput.value);
+    if(!materialId) {
+      alert('Selecciona un material válido.');
+      return;
+    }
+    if(isNaN(quantity) || quantity < 1) {
+      alert('Ingresa una cantidad válida mayor que cero.');
+      return;
+    }
+    const material = inventory.find(i => i.id === materialId);
+    if(!material) {
+      alert('Material no encontrado.');
+      return;
+    }
+    if(quantity > material.units) {
+      alert('No se puede descontar más unidades de las que existen en inventario.');
+      return;
+    }
+    material.units -= quantity;
+    material.totalSqft = calculateTotalSqft(material.units, material.sqftPerUnit);
+    addLogEntry('salida', materialId, quantity);
+    saveToStorage();
+    renderInventoryTable();
+    renderLogs();
+    populateMaterialTypeFilter();
+    populateMaterialSelects();
+    salidaForm.reset();
+    salidaMaterialSelect.focus();
+  });
+  const tabButtons = [tabBtnInventory, tabBtnEntradas, tabBtnSalidas];
+  const tabs = [tabInventory, tabEntradas, tabSalidas];
+  tabButtons.forEach((btn, idx) => {
+    btn.addEventListener('click', () => activateTab(idx));
+  });
+  function activateTab(index) {
+    tabButtons.forEach((btn,i) => {
+      btn.classList.toggle('active', i === index);
+      btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      btn.tabIndex = i === index ? 0 : -1;
+    });
+    tabs.forEach((tab,i) => {
+      tab.classList.toggle('active', i === index);
+      if(i === index) tab.focus();
+    });
+  }
+  const downloadReportBtn = document.getElementById('downloadReportBtn');
+  downloadReportBtn.addEventListener('click', () => {
+    if(inventory.length === 0) {
+      alert('No hay materiales para generar reporte.');
+      return;
+    }
+    const inventoryHeaders = [
+      'Nombre del material', 'Unidades', 
+      'Largo (pies)', 'Ancho (pulgadas)', 'Espesor (pulgadas)',
+      'Pies cuadrados totales', 'Ubicación'
+    ];
+    const inventoryData = inventory.map(item => [
+      item.materialName,
+      item.units,
+      item.length,
+      item.width,
+      item.thickness,
+      item.totalSqft,
+      item.location
+    ]);
+    const wsInventory = XLSX.utils.aoa_to_sheet([inventoryHeaders, ...inventoryData]);
+    XLSX.utils.sheet_add_aoa(wsInventory, [['Inventario Actual']], { origin: 'A1'});
+    XLSX.utils.sheet_add_aoa(wsInventory, [['']], { origin: 'A2'});
+    const totalUnits = inventory.reduce((acc, i) => acc + i.units, 0);
+    const totalSquareFeet = inventory.reduce((acc, i) => acc + i.totalSqft, 0);
+    const uniqueMaterialsCount = [...new Set(inventory.map(i => i.materialName))].length;
+    const dashboardData = [
+      ['Dashboard Resumen'],
+      [],
+      ['Total materiales distintos', uniqueMaterialsCount],
+      ['Total de unidades', totalUnits],
+      ['Pies cuadrados totales', totalSquareFeet.toFixed(3)]
+    ];
+    const wsDashboard = XLSX.utils.aoa_to_sheet(dashboardData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, wsDashboard, 'Dashboard');
+    XLSX.utils.book_append_sheet(wb, wsInventory, 'Inventario');
+    const now = new Date();
+    const filename = `Reporte_Inventario_${now.toISOString().slice(0,10)}.xlsx`;
+    XLSX.writeFile(wb, filename);
+  });
+  function setup() {
+    loadFromStorage();
+    if(currentUser) {
+      showAppScreen();
+    } else {
+      showLoginScreen();
+    }
+    populateMaterialTypeFilter();
+  }
+  setup();
+</script>
+</body>
+</html>
+
