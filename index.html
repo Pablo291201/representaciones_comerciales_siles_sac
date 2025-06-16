@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>REPRESENTACIONES COMERCIALES SiLES SAC</title>
+<title>REPRESENTACIONES COMERCIALES SiLES SAC - Gestión de Productos</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
@@ -12,58 +12,67 @@
   body, html {
     margin: 0; padding: 0; height: 100%;
     font-family: 'Inter', sans-serif;
-    background: #f5f7fa;
-    color: #222;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: #f3f4f6;
     display: flex;
     flex-direction: column;
+    transition: background 0.5s ease;
   }
   /* HEADER */
   header {
-    background: linear-gradient(135deg, #4a90e2, #50e3c2);
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
     color: white;
     padding: 16px 20px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 500;
+    user-select: none;
   }
   header h1 {
-    font-weight: 700;
-    font-size: 1.7rem;
+    font-weight: 800;
+    font-size: 1.8rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
   }
   #logoutBtn {
     background: transparent;
     border: none;
     color: white;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 6px;
     visibility: hidden; /* hidden before login */
+    font-weight: 600;
+    transition: color 0.3s ease;
   }
   #logoutBtn.visible {
     visibility: visible;
   }
   #logoutBtn:hover {
-    color: #a9e6d9;
+    color: #bfdbfe;
   }
   /* CONTAINER */
   #appContainer {
     flex: 1 1 auto;
     max-width: 1200px;
-    margin: 0 auto 40px;
+    margin: 20px auto 40px;
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
     gap: 32px;
+    background: rgba(15, 23, 42, 0.85);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4);
     display: none; /* hidden before login */
+    transition: opacity 0.5s ease;
   }
   #appContainer.visible {
-    display: flex; /* show after login */
+    display: flex;
   }
   /* LOGIN SCREEN */
   #loginScreen {
@@ -72,64 +81,82 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
   }
   #loginForm {
-    background: white;
-    padding: 32px 28px;
-    border-radius: 16px;
-    box-shadow: 0 12px 40px rgba(74,144,226,0.15);
-    width: 320px;
+    background: rgba(59, 130, 246, 0.9);
+    padding: 36px 32px;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.55);
+    width: 340px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 28px;
+    color: white;
   }
   #loginForm h2 {
     text-align: center;
-    font-weight: 700;
-    color: #4a90e2;
+    font-weight: 900;
+    color: #e0e7ff;
+    text-shadow: 0 0 6px #93c5fd;
+    font-size: 2rem;
   }
   #loginForm label {
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #bfdbfe;
   }
   #loginForm input {
-    padding: 10px 14px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1.8px solid #ccc;
-    transition: border-color 0.25s ease;
+    padding: 14px 18px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: none;
+    background: #3b82f6;
+    color: white;
+    font-weight: 600;
+    box-shadow: inset 0 0 6px #60a5fa;
+    transition: background 0.3s ease;
+  }
+  #loginForm input::placeholder {
+    color: #dbdbdb;
+    font-weight: 500;
   }
   #loginForm input:focus {
     outline: none;
-    border-color: #50e3c2;
-    box-shadow: 0 0 10px #50e3c2aa;
+    background: #60a5fa;
+    box-shadow: 0 0 14px #93c5fd, inset 0 0 8px #60a5fa;
   }
   #loginForm button {
-    background: #4a90e2;
+    background: #2563eb;
     color: white;
-    font-weight: 700;
+    font-weight: 900;
     border: none;
-    border-radius: 14px;
-    padding: 14px;
+    border-radius: 16px;
+    padding: 16px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    box-shadow: 0 0 12px #3b82f6;
+    transition: background 0.4s ease;
   }
   #loginForm button:hover {
-    background: #357abd;
+    background: #60a5fa;
+    box-shadow: 0 0 24px #93c5fd;
   }
   #loginError {
-    color: #cc4b37;
-    font-weight: 600;
+    color: #f87171;
+    font-weight: 700;
     text-align: center;
     display: none;
+    text-shadow: 0 0 4px #fca5a5;
   }
   /* TABS NAV */
   #tabsNav {
     display: flex;
-    gap: 20px;
-    border-bottom: 3px solid #4a90e2;
+    gap: 32px;
+    border-bottom: 3px solid #60a5fa;
     visibility: hidden; /* hide before login */
+    user-select: none;
   }
   #tabsNav.visible {
     visibility: visible;
@@ -137,161 +164,231 @@
   #tabsNav button {
     background: none;
     border: none;
-    font-size: 1.1rem;
-    font-weight: 700;
-    padding: 12px 10px;
-    border-bottom: 4px solid transparent;
+    font-size: 1.3rem;
+    font-weight: 800;
+    padding: 14px 12px 10px;
+    border-bottom: 5px solid transparent;
     cursor: pointer;
-    color: #4a90e2;
-    transition: border-color 0.3s ease;
+    color: #a5b4fc;
+    letter-spacing: 0.05em;
+    transition: border-color 0.3s ease, color 0.3s ease;
   }
   #tabsNav button:hover,
   #tabsNav button.active {
-    border-bottom-color: #50e3c2;
-    color: #50e3c2;
+    border-bottom-color: #3b82f6;
+    color: #bfdbfe;
   }
   /* TAB CONTENT */
   .tabContent {
     display: none;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 10px 24px rgba(74,144,226,0.15);
-    padding: 20px 24px;
+    background: rgba(31, 41, 55, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.5);
+    padding: 30px 32px;
     flex-direction: column;
-    min-height: 400px;
+    min-height: 480px;
     overflow-y: auto;
+    position: relative;
   }
   .tabContent.active {
     display: flex;
   }
   /* --- Inventory Tab --- */
   #filtersSection {
-    background: white;
-    padding: 20px 24px;
+    background: rgba(59, 130, 246, 0.3);
+    padding: 22px 28px;
     border-radius: 14px;
-    box-shadow: 0 10px 24px rgba(74,144,226,0.15);
+    box-shadow: 0 0 40px rgba(30, 64, 175, 0.8);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
     align-items: end;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+    color: #dbeafe;
   }
   #filtersSection > div {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
   #filtersSection label {
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 1rem;
   }
   #filtersSection input, #filtersSection select {
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1.5px solid #ccc;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
     font-size: 1rem;
-    transition: border-color 0.25s ease;
+    font-weight: 600;
+    background: rgba(31, 41, 55, 0.7);
+    color: #e0e7ff;
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  #filtersSection input::placeholder, #filtersSection select option {
+    color: #a5b4fc;
   }
   #filtersSection input:focus, #filtersSection select:focus {
     outline: none;
-    border-color: #50e3c2;
-    box-shadow: 0 0 8px #50e3c2aa;
+    background: rgba(59, 130, 246, 0.8);
+    color: #f8fafc;
+    box-shadow: 0 0 14px #93c5fd;
   }
   #filtersSection button {
-    background: #50e3c2;
+    background: #3b82f6;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
     border: none;
-    border-radius: 12px;
-    padding: 10px 16px;
+    border-radius: 14px;
+    padding: 14px 20px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
     justify-self: start;
+    box-shadow: 0 0 18px #60a5fa;
+    transition: background 0.4s ease;
   }
   #filtersSection button:hover {
-    background: #3bbba9;
+    background: #60a5fa;
+    box-shadow: 0 0 38px #93c5fd;
   }
   /* Inventory Table styles */
   table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 6px;
     width: 100%;
     overflow-x: auto;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    color: #e0e7ff;
+    text-shadow: 0 0 2px #1e40af;
   }
   thead tr {
-    background: #50e3c2;
+    background: #2563eb;
     color: white;
-    font-weight: 600;
+    font-weight: 800;
   }
   thead tr th {
-    padding: 12px 15px;
+    padding: 14px 18px;
     text-align: left;
     white-space: nowrap;
+    letter-spacing: 0.02em;
   }
   tbody tr {
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s ease;
+    background: rgba(49, 130, 206, 0.7);
+    box-shadow: inset 0 -6px 10px -6px rgba(30, 64, 175, 0.8);
+    border-radius: 12px;
+    transition: box-shadow 0.25s ease;
   }
   tbody tr:hover {
-    background: #f0faf9;
+    box-shadow: inset 0 0 30px 3px #60a5fa;
   }
   tbody tr td {
-    padding: 10px 15px;
+    padding: 14px 18px;
     white-space: nowrap;
+  }
+  tbody tr.low-stock {
+    background: rgba(244, 63, 94, 0.85);
+    box-shadow: inset 0 0 20px 3px rgba(220, 20, 60, 0.9);
+  }
+  tbody tr.low-stock:hover {
+    box-shadow: inset 0 0 40px 6px rgba(220, 20, 60, 1);
   }
   .actions button {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 6px;
-    color: #4a90e2;
-    font-size: 20px;
-    transition: color 0.25s ease;
+    padding: 8px;
+    color: #a5b4fc;
+    font-size: 24px;
+    transition: color 0.3s ease, transform 0.3s ease;
   }
   .actions button:hover {
-    color: #357abd;
+    color: #facc15;
+    transform: scale(1.2);
+  }
+  /* Alert for low stock */
+  #lowStockAlert {
+    background-color: #dc2630;
+    color: white;
+    border-radius: 12px;
+    padding: 16px 24px;
+    box-shadow: 0 0 25px #f44336cc;
+    font-weight: 700;
+    display: none;
+    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+  }
+  #lowStockAlert.show {
+    display: flex;
+  }
+  #lowStockAlert .material-icons {
+    font-size: 28px;
   }
   /* Forms styles (additions / removals) */
   form.flexForm {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: 20px;
+    margin-bottom: 28px;
   }
   form.flexForm > div {
-    flex: 1 1 200px;
+    flex: 1 1 240px;
     display: flex;
     flex-direction: column;
   }
   form.flexForm label {
-    font-weight: 600;
-    margin-bottom: 6px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: #dbeafe;
+    text-shadow: 0 0 3px #2563eb;
   }
   form.flexForm input, form.flexForm select {
-    padding: 10px 14px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1.8px solid #ccc;
-    transition: border-color 0.25s ease;
+    padding: 14px 18px;
+    font-size: 1.1rem;
+    border-radius: 14px;
+    border: none;
+    background: rgba(31, 41, 55, 0.8);
+    color: #f0f9ff;
+    font-weight: 700;
+    box-shadow: inset 0 0 12px #3b82f6;
+    transition: background 0.3s ease, color 0.3s ease;
   }
-  form.flexForm input:focus, form.flexForm select:focus {
+  form.flexForm input[readonly] {
+    background: rgba(59, 130, 246, 0.3);
+    box-shadow: none;
+    cursor: default;
+  }
+  form.flexForm input::placeholder, form.flexForm select option {
+    color: #a5b4fc;
+    font-weight: 600;
+  }
+  form.flexForm input:focus:not([readonly]), form.flexForm select:focus {
     outline: none;
-    border-color: #50e3c2;
-    box-shadow: 0 0 10px #50e3c2aa;
+    background: rgb(59 130 246 / 0.95);
+    color: #f8fafc;
+    box-shadow: 0 0 18px #93c5fd;
   }
   form.flexForm button {
-    background: #4a90e2;
+    background: #2563eb;
     color: white;
-    font-weight: 600;
+    font-weight: 900;
     border: none;
-    border-radius: 14px;
-    padding: 14px 24px;
+    border-radius: 20px;
+    padding: 18px 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.35s ease, box-shadow 0.35s ease;
     align-self: flex-start;
+    box-shadow: 0 0 22px #60a5fa;
+    letter-spacing: 0.05em;
   }
   form.flexForm button:hover:not(:disabled) {
-    background: #357abd;
+    background: #60a5fa;
+    box-shadow: 0 0 48px #93c5fd;
   }
   form.flexForm button:disabled {
     background: #a0bffb;
@@ -299,55 +396,294 @@
   }
   /* Logs tables */
   .logTable {
-    max-height: 350px;
+    max-height: 370px;
     overflow-y: auto;
-    margin-top: 12px;
+    margin-top: 14px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 15px rgb(147 197 253 / 0.3);
   }
   .logTable table {
     width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    font-size: 0.92rem;
+    color: #dbeafe;
   }
   .logTable thead tr {
-    background: #4a90e2;
+    background: #3b82f6;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
+    text-shadow: 0 0 4px #1e40af;
+    border-radius: 8px;
   }
   .logTable thead tr th, .logTable tbody tr td {
-    padding: 8px 10px;
+    padding: 10px 14px;
     white-space: nowrap;
-    border-bottom: 1px solid #e0edf0;
   }
-  .logTable tbody tr:nth-child(odd) {
-    background: #f5fbfa;
+  .logTable tbody tr {
+    background: rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+    box-shadow: inset 0 -8px 12px -8px rgba(30, 64, 175, 0.7);
+    transition: box-shadow 0.3s ease;
   }
-  /* Scrollbar for log tables */
-  .logTable::-webkit-scrollbar {
-    height: 8px;
+  .logTable tbody tr:hover {
+    box-shadow: inset 0 0 30px 4px #60a5fa;
   }
-  .logTable::-webkit-scrollbar-track {
-    background: #e9f3f5;
-    border-radius: 6px;
+  .logTable tbody tr td {
+    vertical-align: middle;
   }
-  .logTable::-webkit-scrollbar-thumb {
-    background-color: #50e3c2;
-    border-radius: 6px;
+  /* Extra buttons in logs for admin */
+  .logActions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 8px;
+    margin-left: 6px;
+    font-size: 22px;
+    color: #93c5fd;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .logActions button:hover {
+    color: #fde68a;
+    transform: scale(1.2);
+  }
+  /* Editable quantity input for logs */
+  .editQuantityInput {
+    width: 60px;
+    padding: 4px 6px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3b82f6;
+    text-align: center;
+    box-shadow: inset 0 0 8px #60a5fa;
+    outline-offset: 2px;
   }
   /* Responsive */
   @media (max-width: 760px) {
     #appContainer {
-      padding: 24px 12px 40px;
+      padding: 24px 14px 40px;
     }
     #filtersSection {
       grid-template-columns: 1fr;
-      gap: 16px 0;
-      margin-bottom: 16px;
+      gap: 20px 0;
+      margin-bottom: 28px;
     }
     table thead tr th, table tbody tr td {
       font-size: 0.8rem;
       padding: 7px 8px;
     }
     form.flexForm > div {
+      flex: 1 1 100%;
+    }
+    .logActions button {
+      margin-left: 2px;
+      font-size: 18px;
+    }
+    .editQuantityInput {
+      width: 44px;
+      font-size: 0.9rem;
+      padding: 3px 5px;
+    }
+  }
+  /* Modal styles for variants list */
+  #variantModalBackdrop {
+    position: fixed;
+    display: none;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 600;
+    align-items: center;
+    justify-content: center;
+  }
+  #variantModal {
+    background: #1e40af;
+    padding: 24px;
+    border-radius: 16px;
+    max-width: 880px;
+    width: 95%;
+    box-shadow: 0 0 40px #2563eb;
+    color: #dbeafe;
+    font-family: 'Inter', sans-serif;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+  }
+  #variantModal header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  #variantModal header h3 {
+    margin: 0;
+  }
+  #variantModal header button {
+    background: none;
+    border: none;
+    color: #e0e7ff;
+    font-size: 30px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+  #variantModal header button:hover {
+    color: #60a5fa;
+  }
+  #variantFilters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  #variantFilters label {
+    font-weight: 700;
+    min-width: 90px;
+    font-size: 0.95rem;
+    align-self: center;
+  }
+  #variantFilters input {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(31, 41, 55, 0.9);
+    box-shadow: inset 0 0 12px #3b82f6;
+    color: #e0e7ff;
+    font-weight: 600;
+    width: 100px;
+  }
+  #variantListTable {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    width: 100%;
+    font-size: 0.9rem;
+    color: #dbeafe;
+    overflow-y: auto;
+    max-height: 50vh;
+  }
+  #variantListTable thead tr {
+    background: #2563eb;
+    color: white;
+    font-weight: 700;
+    text-shadow: 0 0 3px #1e40af;
+    border-radius: 8px;
+  }
+  #variantListTable thead tr th,
+  #variantListTable tbody tr td {
+    padding: 10px 14px;
+    white-space: nowrap;
+    text-align: left;
+  }
+  #variantListTable tbody tr {
+    background: rgba(49, 130, 206, 0.7);
+    border-radius: 8px;
+    box-shadow: inset 0 -6px 10px -6px rgba(30, 64, 175, 0.8);
+    transition: box-shadow 0.25s ease;
+  }
+  #variantListTable tbody tr:hover {
+    box-shadow: inset 0 0 30px 3px #60a5fa;
+  }
+  /* PRODUCTS TAB */
+  #productsForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 28px;
+    background: rgba(59, 130, 246, 0.3);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(30, 64, 175, 0.6);
+  }
+  #productsForm > div {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  #productsForm label {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: #dbeafe;
+    text-shadow: 0 0 3px #2563eb;
+  }
+  #productsForm input, #productsForm textarea {
+    padding: 14px 18px;
+    font-size: 1.1rem;
+    border-radius: 14px;
+    border: none;
+    background: rgba(31, 41, 55, 0.8);
+    color: #f0f9ff;
+    font-weight: 700;
+    box-shadow: inset 0 0 12px #3b82f6;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  #productsForm textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  #productsForm input::placeholder, #productsForm textarea::placeholder {
+    color: #a5b4fc;
+    font-weight: 600;
+  }
+  #productsForm input:focus, #productsForm textarea:focus {
+    outline: none;
+    background: rgb(59 130 246 / 0.95);
+    color: #f8fafc;
+    box-shadow: 0 0 18px #93c5fd;
+  }
+  #productsList {
+    background: rgba(59, 130, 246, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 0 36px rgba(30, 64, 175, 0.5);
+    padding: 24px;
+    max-height: 350px;
+    overflow-y: auto;
+  }
+  #productsList h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #bfdbfe;
+    text-shadow: 0 0 4px #2563eb;
+    margin-bottom: 16px;
+  }
+  #productsList ul {
+    list-style: none;
+    margin: 0; padding: 0;
+    color: #e0e7ff;
+    font-size: 1.05rem;
+  }
+  #productsList ul li {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.5);
+    cursor: default;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #productsList ul li:last-child {
+    border-bottom: none;
+  }
+  #productsList ul li .product-name {
+    font-weight: 700;
+  }
+  #productsList ul li .product-actions {
+    display: flex;
+    gap: 12px;
+  }
+  #productsList ul li .material-icons {
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  #productsList ul li .material-icons:hover {
+    color: #facc15;
+    transform: scale(1.2);
+  }
+  /* Responsive */
+  @media (max-width: 760px) {
+    #productsForm > div {
       flex: 1 1 100%;
     }
   }
@@ -377,118 +713,109 @@
     <button role="tab" aria-selected="true" aria-controls="tabInventory" id="tabBtnInventory" class="active" tabindex="0">Inventario</button>
     <button role="tab" aria-selected="false" aria-controls="tabEntradas" id="tabBtnEntradas" tabindex="-1">Entradas</button>
     <button role="tab" aria-selected="false" aria-controls="tabSalidas" id="tabBtnSalidas" tabindex="-1">Salidas</button>
+    <button role="tab" aria-selected="false" aria-controls="tabProductos" id="tabBtnProductos" tabindex="-1">Productos</button>
   </nav>
   <!-- INVENTORY TAB -->
   <section id="tabInventory" class="tabContent active" tabindex="0" role="tabpanel" aria-labelledby="tabBtnInventory">
-    <!-- Filters -->
-    <section id="filtersSection" aria-live="polite" aria-atomic="true">
-      <div>
-        <label for="filterMaterialName">Tipo de madera</label>
-        <select id="filterMaterialName" aria-label="Filtrar por tipo de madera">
-          <option value="" selected>Todos</option>
-        </select>
-      </div>
-      <div>
-        <label for="filterLengthMin">Largo mínimo (pies)</label>
-        <input type="number" id="filterLengthMin" min="0" step="0.01" placeholder="Min" aria-label="Filtrar largo mínimo en pies" />
-      </div>
-      <div>
-        <label for="filterLengthMax">Largo máximo (pies)</label>
-        <input type="number" id="filterLengthMax" min="0" step="0.01" placeholder="Max" aria-label="Filtrar largo máximo en pies" />
-      </div>
-      <div>
-        <label for="filterWidthMin">Ancho mínimo (pulgadas)</label>
-        <input type="number" id="filterWidthMin" min="0" step="0.01" placeholder="Min" aria-label="Filtrar ancho mínimo en pulgadas" />
-      </div>
-      <div>
-        <label for="filterWidthMax">Ancho máximo (pulgadas)</label>
-        <input type="number" id="filterWidthMax" min="0" step="0.01" placeholder="Max" aria-label="Filtrar ancho máximo en pulgadas" />
-      </div>
-      <div>
-        <label for="filterThicknessMin">Espesor mínimo (pulgadas)</label>
-        <input type="number" id="filterThicknessMin" min="0" step="0.01" placeholder="Min" aria-label="Filtrar espesor mínimo en pulgadas" />
-      </div>
-      <div>
-        <label for="filterThicknessMax">Espesor máximo (pulgadas)</label>
-        <input type="number" id="filterThicknessMax" min="0" step="0.01" placeholder="Max" aria-label="Filtrar espesor máximo en pulgadas" />
-      </div>
-      <div>
-        <button id="clearFiltersBtn" aria-label="Limpiar filtros">Limpiar filtros</button>
-      </div>
-      <div>
-        <button id="downloadReportBtn" aria-label="Descargar reporte en Excel">Descargar reporte Excel</button>
-      </div>
+    <!-- Product selector for variants modal -->
+    <section id="productSelectorSection" style="margin-bottom:24px;">
+      <label for="productSelect" style="font-weight:700; font-size:1.1rem; color:#bfdbfe;">Selecciona un producto para ver sus medidas:</label>
+      <select id="productSelect" aria-label="Selecciona producto para ver variantes" style="padding:10px 14px; font-size:1rem; width:100%; max-width:400px; border-radius:12px; border:none; background:rgba(31, 41, 55, 0.9); color:#e0e7ff; box-shadow: inset 0 0 12px #3b82f6; cursor:pointer;">
+        <option value="">-- Todos los productos --</option>
+      </select>
     </section>
-    <!-- Inventory Table -->
-    <section aria-labelledby="inventoryTitle" class="inventory-section" style="margin-top:24px;">
+    <!-- Inventory summary table -->
+    <section aria-labelledby="inventoryTitle" class="inventory-section" style="margin-top:8px;">
       <h2 id="inventoryTitle">Inventario actual</h2>
-      <table role="table" aria-describedby="inventoryTitle">
+      <table role="table" aria-describedby="inventoryTitle" id="inventorySummaryTable">
         <thead>
           <tr>
             <th scope="col">Material</th>
-            <th scope="col">Unidades</th>
-            <th scope="col">Largo (pies)</th>
-            <th scope="col">Ancho (pulg)</th>
-            <th scope="col">Espesor (pulg)</th>
-            <th scope="col">Pies²</th>
-            <th scope="col">Ubicación</th>
-            <th scope="col" class="actions" aria-label="Acciones">Acciones</th>
+            <th scope="col">Unidades Totales</th>
+            <th scope="col">Pies cuadrados Totales</th>
           </tr>
         </thead>
         <tbody id="inventoryTableBody" role="rowgroup">
-          <!-- inventory rows -->
+          <!-- inventory rows summary -->
         </tbody>
       </table>
     </section>
-    <!-- Add Material Form only visible to admin -->
-    <form id="addMaterialForm" aria-describedby="addMaterialDesc" autocomplete="off" novalidate style="margin-top:32px;">
-      <h3 style="color:#4a90e2; margin-bottom:16px;">Agregar Nuevo Material</h3>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px;">
-        <div>
-          <label for="materialName">Nombre del material</label>
-          <input type="text" id="materialName" name="materialName" placeholder="Ej: Tablón de pino" aria-required="true" />
-        </div>
-        <div>
-          <label for="unitCount">Unidades</label>
-          <input type="number" id="unitCount" name="unitCount" min="1" placeholder="Cantidad" aria-required="true" />
-        </div>
-        <div>
-          <label for="length">Largo (pies)</label>
-          <input type="number" id="length" name="length" min="0.1" step="0.01" placeholder="Ej: 8.0" aria-required="true" />
-        </div>
-        <div>
-          <label for="width">Ancho (pulgadas)</label>
-          <input type="number" id="width" name="width" min="0.1" step="0.01" placeholder="Ej: 48.0" aria-required="true" />
-        </div>
-        <div>
-          <label for="thickness">Espesor (pulgadas)</label>
-          <input type="number" id="thickness" name="thickness" min="0.1" step="0.01" placeholder="Ej: 1.5" aria-required="true" />
-        </div>
-        <div>
-          <label for="location">Ubicación</label>
-          <input type="text" id="location" name="location" placeholder="Ej: Bodega A" aria-required="true" />
-        </div>
-        <div>
-          <label for="totalSqft">Pies cuadrados totales</label>
-          <input type="text" id="totalSqft" name="totalSqft" readonly aria-readonly="true" />
-        </div>
-        <div>
-          <button type="submit" id="addMaterialBtn" aria-label="Agregar material al inventario">Agregar Material</button>
-        </div>
-      </div>
-    </form>
   </section>
+
+  <!-- VARIANTS MODAL -->
+  <div id="variantModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="variantModalTitle">
+    <div id="variantModal">
+      <header>
+        <h3 id="variantModalTitle">Medidas disponibles para el producto: <span id="currentProductName"></span></h3>
+        <button id="closeVariantModalBtn" aria-label="Cerrar ventana de variantes"><span class="material-icons">close</span></button>
+      </header>
+      <section id="variantFilters">
+        <label for="variantFilterLengthMin">Largo Min (pies)</label>
+        <input type="number" id="variantFilterLengthMin" step="0.01" min="0" placeholder="Min" />
+        <label for="variantFilterLengthMax">Largo Max (pies)</label>
+        <input type="number" id="variantFilterLengthMax" step="0.01" min="0" placeholder="Max" />
+        <label for="variantFilterWidthMin">Ancho Min (pulg)</label>
+        <input type="number" id="variantFilterWidthMin" step="0.01" min="0" placeholder="Min" />
+        <label for="variantFilterWidthMax">Ancho Max (pulg)</label>
+        <input type="number" id="variantFilterWidthMax" step="0.01" min="0" placeholder="Max" />
+        <label for="variantFilterThicknessMin">Espesor Min (pulg)</label>
+        <input type="number" id="variantFilterThicknessMin" step="0.01" min="0" placeholder="Min" />
+        <label for="variantFilterThicknessMax">Espesor Max (pulg)</label>
+        <input type="number" id="variantFilterThicknessMax" step="0.01" min="0" placeholder="Max" />
+        <button id="clearVariantFiltersBtn" style="margin-left: auto; background: #2563eb; color:white; border:none; border-radius: 10px; padding: 8px 16px; font-weight: 700; cursor:pointer; box-shadow:0 0 12px #3b82f6; transition: background 0.3s ease;">
+          Limpiar filtros
+        </button>
+      </section>
+      <section style="overflow-y: auto; max-height:50vh;">
+        <table id="variantListTable" tabindex="0">
+          <thead>
+            <tr>
+              <th>Largo (pies)</th>
+              <th>Ancho (pulg)</th>
+              <th>Espesor (pulg)</th>
+              <th>Ubicación</th>
+              <th>Unidades</th>
+              <th>Pies cuadrados</th>
+            </tr>
+          </thead>
+          <tbody id="variantListTbody">
+            <!-- variant rows here -->
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+
   <!-- ENTRADAS TAB -->
   <section id="tabEntradas" class="tabContent" tabindex="0" role="tabpanel" aria-labelledby="tabBtnEntradas">
     <h2>Registro de Entradas (agregados)</h2>
+    <!-- Changed product name input to product selector -->
     <form id="entradaForm" class="flexForm" aria-label="Formulario para registrar entrada de materiales" autocomplete="off" novalidate>
       <div>
-        <label for="entradaMaterial">Material</label>
-        <select id="entradaMaterial" name="entradaMaterial" aria-required="true"></select>
+        <label for="entradaProductSelect">Producto</label>
+        <select id="entradaProductSelect" name="entradaProductSelect" aria-required="true" required>
+          <option value="" disabled selected>-- Selecciona un producto --</option>
+        </select>
       </div>
       <div>
-        <label for="entradaQuantity">Cantidad</label>
-        <input type="number" id="entradaQuantity" name="entradaQuantity" min="1" step="1" aria-required="true" />
+        <label for="entradaUnitCount">Unidades</label>
+        <input type="number" id="entradaUnitCount" name="entradaUnitCount" min="1" step="1" aria-required="true" />
+      </div>
+      <div>
+        <label for="entradaLength">Largo (pies)</label>
+        <input type="number" id="entradaLength" name="entradaLength" min="0.1" step="0.01" aria-required="true" />
+      </div>
+      <div>
+        <label for="entradaWidth">Ancho (pulgadas)</label>
+        <input type="number" id="entradaWidth" name="entradaWidth" min="0.1" step="0.01" aria-required="true" />
+      </div>
+      <div>
+        <label for="entradaThickness">Espesor (pulgadas)</label>
+        <input type="number" id="entradaThickness" name="entradaThickness" min="0.1" step="0.01" aria-required="true" />
+      </div>
+      <div>
+        <label for="entradaLocation">Ubicación</label>
+        <input type="text" id="entradaLocation" name="entradaLocation" aria-required="true" />
       </div>
       <div style="align-self:center;">
         <button type="submit" aria-label="Registrar entrada de material">Registrar Entrada</button>
@@ -502,26 +829,48 @@
             <th>Material</th>
             <th>Cantidad</th>
             <th>Usuario</th>
+            <th aria-label="Acciones" style="width: 90px;">Acciones</th>
           </tr>
         </thead>
         <tbody id="entradaLogBody"></tbody>
       </table>
     </section>
   </section>
+
   <!-- SALIDAS TAB -->
   <section id="tabSalidas" class="tabContent" tabindex="0" role="tabpanel" aria-labelledby="tabBtnSalidas">
     <h2>Registro de Salidas (descuentos)</h2>
     <form id="salidaForm" class="flexForm" aria-label="Formulario para registrar salida de materiales" autocomplete="off" novalidate>
       <div>
-        <label for="salidaMaterial">Material</label>
-        <select id="salidaMaterial" name="salidaMaterial" aria-required="true"></select>
+        <label for="salidaMaterialVariant">Material (con medidas)</label>
+        <select id="salidaMaterialVariant" name="salidaMaterialVariant" aria-required="true"></select>
+      </div>
+      <div>
+        <label for="salidaLength">Largo (pies)</label>
+        <input type="text" id="salidaLength" readonly aria-readonly="true" />
+      </div>
+      <div>
+        <label for="salidaWidth">Ancho (pulgadas)</label>
+        <input type="text" id="salidaWidth" readonly aria-readonly="true" />
+      </div>
+      <div>
+        <label for="salidaThickness">Espesor (pulgadas)</label>
+        <input type="text" id="salidaThickness" readonly aria-readonly="true" />
+      </div>
+      <div>
+        <label for="salidaLocation">Ubicación</label>
+        <input type="text" id="salidaLocation" readonly aria-readonly="true" />
+      </div>
+      <div>
+        <label for="salidaAvailableSqft">Pies cuadrados disponibles</label>
+        <input type="text" id="salidaAvailableSqft" readonly aria-readonly="true" />
       </div>
       <div>
         <label for="salidaQuantity">Cantidad</label>
         <input type="number" id="salidaQuantity" name="salidaQuantity" min="1" step="1" aria-required="true" />
       </div>
       <div style="align-self:center;">
-        <button type="submit" aria-label="Registrar salida de material">Registrar Salida</button>
+        <button type="submit" id="salidaSubmitBtn" aria-label="Registrar salida de material" disabled>Registrar Salida</button>
       </div>
     </form>
     <section class="logTable" aria-label="Tabla de registros de salidas">
@@ -532,18 +881,62 @@
             <th>Material</th>
             <th>Cantidad</th>
             <th>Usuario</th>
+            <th aria-label="Acciones" style="width: 90px;">Acciones</th>
           </tr>
         </thead>
         <tbody id="salidaLogBody"></tbody>
       </table>
     </section>
   </section>
+
+  <!-- PRODUCTS TAB -->
+  <section id="tabProductos" class="tabContent" tabindex="0" role="tabpanel" aria-labelledby="tabBtnProductos">
+    <h2>Gestión de Productos</h2>
+    <form id="productsForm" autocomplete="off" novalidate>
+      <div>
+        <label for="productNameInput">Nombre del producto</label>
+        <input type="text" id="productNameInput" name="productNameInput" placeholder="Ej: Madera de pino" required aria-required="true" />
+      </div>
+      <div>
+        <label for="productDescriptionInput">Descripción</label>
+        <textarea id="productDescriptionInput" name="productDescriptionInput" placeholder="Descripción breve del producto"></textarea>
+      </div>
+      <div style="align-self:flex-end;">
+        <button type="submit" aria-label="Agregar producto">Agregar Producto</button>
+      </div>
+    </form>
+    <section id="productsList" aria-label="Lista de productos existentes">
+      <h3>Productos creados</h3>
+      <ul id="productsUl">
+        <!-- List of products added -->
+      </ul>
+    </section>
+  </section>
 </div>
+
+<!-- Edit modal for entradas and salidas -->
+<div id="editLogModalBackdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:600;align-items:center;justify-content:center;">
+  <div style="background:#1e40af;padding:24px;border-radius:16px;max-width:360px;width:90%;box-shadow:0 0 35px #2563eb;color:#dbeafe;font-family:'Inter',sans-serif;">
+    <h3 id="editLogTitle" style="margin-top:0;margin-bottom:8px;">Editar Registro</h3>
+    <form id="editLogForm" style="display:flex;flex-direction:column;gap:16px;" autocomplete="off" novalidate>
+      <label for="editLogQuantity">Cantidad</label>
+      <input type="number" id="editLogQuantity" min="1" step="1" required autofocus style="padding:10px 14px;font-size:1rem;border-radius:10px;border:none;box-shadow:inset 0 0 12px #60a5fa;color:#f8fafc;font-weight:700;" />
+      <div style="display:flex;gap:20px;justify-content:flex-end;">
+        <button type="button" id="cancelEditBtn" style="background:#f87171;color:white;padding:10px 18px;font-weight:900;border:none;border-radius:12px;cursor:pointer;transition:background 0.3s ease;">Cancelar</button>
+        <button type="submit" style="background:#2563eb;color:white;padding:10px 18px;font-weight:900;border:none;border-radius:12px;cursor:pointer;transition:background 0.3s ease;">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
+  // Users and Inventory Management State and Functions (same as original with additions for products)
   const users = [
     { id: 'pablo2912', password: 'Oficina 1', role: 'admin', name: 'Administrador' },
     { id: 'rcs.siles', password: '123456', role: 'user', name: 'Usuario' }
   ];
+
+  // DOM Elements
   const loginScreen = document.getElementById('loginScreen');
   const loginForm = document.getElementById('loginForm');
   const loginIdInput = document.getElementById('loginId');
@@ -552,388 +945,254 @@
   const appContainer = document.getElementById('appContainer');
   const logoutBtn = document.getElementById('logoutBtn');
   const tabsNav = document.getElementById('tabsNav');
-  const tabBtnInventory = document.getElementById('tabBtnInventory');
-  const tabBtnEntradas = document.getElementById('tabBtnEntradas');
-  const tabBtnSalidas = document.getElementById('tabBtnSalidas');
-  const tabInventory = document.getElementById('tabInventory');
-  const tabEntradas = document.getElementById('tabEntradas');
-  const tabSalidas = document.getElementById('tabSalidas');
-  const addMaterialForm = document.getElementById('addMaterialForm');
-  const materialNameInput = document.getElementById('materialName');
-  const unitCountInput = document.getElementById('unitCount');
-  const lengthInput = document.getElementById('length');
-  const widthInput = document.getElementById('width');
-  const thicknessInput = document.getElementById('thickness');
-  const locationInput = document.getElementById('location');
-  const totalSqftInput = document.getElementById('totalSqft');
+  const tabButtons = [
+    document.getElementById('tabBtnInventory'),
+    document.getElementById('tabBtnEntradas'),
+    document.getElementById('tabBtnSalidas'),
+    document.getElementById('tabBtnProductos')
+  ];
+  const tabs = [
+    document.getElementById('tabInventory'),
+    document.getElementById('tabEntradas'),
+    document.getElementById('tabSalidas'),
+    document.getElementById('tabProductos')
+  ];
+
+  // Inventory tab elements
+  const productSelect = document.getElementById('productSelect');
   const inventoryTableBody = document.getElementById('inventoryTableBody');
-  const filterMaterialName = document.getElementById('filterMaterialName');
-  const filterLengthMinInput = document.getElementById('filterLengthMin');
-  const filterLengthMaxInput = document.getElementById('filterLengthMax');
-  const filterWidthMinInput = document.getElementById('filterWidthMin');
-  const filterWidthMaxInput = document.getElementById('filterWidthMax');
-  const filterThicknessMinInput = document.getElementById('filterThicknessMin');
-  const filterThicknessMaxInput = document.getElementById('filterThicknessMax');
-  const clearFiltersBtn = document.getElementById('clearFiltersBtn');
-  const entradaForm = document.getElementById('entradaForm');
-  const entradaMaterialSelect = document.getElementById('entradaMaterial');
-  const entradaQuantityInput = document.getElementById('entradaQuantity');
-  const entradaLogBody = document.getElementById('entradaLogBody');
-  const salidaForm = document.getElementById('salidaForm');
-  const salidaMaterialSelect = document.getElementById('salidaMaterial');
-  const salidaQuantityInput = document.getElementById('salidaQuantity');
-  const salidaLogBody = document.getElementById('salidaLogBody');
+
+  // Variant modal elements as before
+  const variantModalBackdrop = document.getElementById('variantModalBackdrop');
+  const variantModal = document.getElementById('variantModal');
+  const variantListTbody = document.getElementById('variantListTbody');
+  const currentProductNameSpan = document.getElementById('currentProductName');
+  const closeVariantModalBtn = document.getElementById('closeVariantModalBtn');
+
+  // Variant filter inputs as before
+  const variantFilterLengthMin = document.getElementById('variantFilterLengthMin');
+  const variantFilterLengthMax = document.getElementById('variantFilterLengthMax');
+  const variantFilterWidthMin = document.getElementById('variantFilterWidthMin');
+  const variantFilterWidthMax = document.getElementById('variantFilterWidthMax');
+  const variantFilterThicknessMin = document.getElementById('variantFilterThicknessMin');
+  const variantFilterThicknessMax = document.getElementById('variantFilterThicknessMax');
+  const clearVariantFiltersBtn = document.getElementById('clearVariantFiltersBtn');
+
+  // Entradas tab elements (note: product select changed)
+  const entradaFormEl = document.getElementById('entradaForm');
+  const entradaProductSelect = document.getElementById('entradaProductSelect');
+  const entradaUnitCountEl = document.getElementById('entradaUnitCount');
+  const entradaLengthEl = document.getElementById('entradaLength');
+  const entradaWidthEl = document.getElementById('entradaWidth');
+  const entradaThicknessEl = document.getElementById('entradaThickness');
+  const entradaLocationEl = document.getElementById('entradaLocation');
+  const entradaLogBodyEl = document.getElementById('entradaLogBody');
+
+  // Salidas tab elements unchanged:
+  const salidaFormEl = document.getElementById('salidaForm');
+  const salidaMaterialSelectEl = document.getElementById('salidaMaterialVariant');
+  const salidaLengthEl = document.getElementById('salidaLength');
+  const salidaWidthEl = document.getElementById('salidaWidth');
+  const salidaThicknessEl = document.getElementById('salidaThickness');
+  const salidaLocationEl = document.getElementById('salidaLocation');
+  const salidaAvailableSqftEl = document.getElementById('salidaAvailableSqft');
+  const salidaQuantityEl = document.getElementById('salidaQuantity');
+  const salidaSubmitBtnEl = document.getElementById('salidaSubmitBtn');
+  const salidaLogBodyEl = document.getElementById('salidaLogBody');
+
+  // Edit modal elements as before
+  const editLogModalBackdrop = document.getElementById('editLogModalBackdrop');
+  const editLogForm = document.getElementById('editLogForm');
+  const editLogQuantityInput = document.getElementById('editLogQuantity');
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+  // Products tab elements
+  const productsForm = document.getElementById('productsForm');
+  const productNameInput = document.getElementById('productNameInput');
+  const productDescriptionInput = document.getElementById('productDescriptionInput');
+  const productsUl = document.getElementById('productsUl');
+
+  // State vars
   let currentUser = null;
   const STORAGE_KEYS = {
     INVENTORY: 'maderera_inventory',
     LOGS: 'maderera_logs',
-    CURRENT_USER: 'maderera_current_user'
+    CURRENT_USER: 'maderera_current_user',
+    PRODUCTS: 'maderera_products'
   };
   let inventory = [];
   let logs = [];
+  let products = [];
+  let editingLog = null;
+
+  // Load/save functions for inventory, logs, currentUser, products
   function loadFromStorage() {
     const invRaw = localStorage.getItem(STORAGE_KEYS.INVENTORY);
     const logsRaw = localStorage.getItem(STORAGE_KEYS.LOGS);
     const userRaw = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+    const prodsRaw = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
     inventory = invRaw ? JSON.parse(invRaw) : [];
     logs = logsRaw ? JSON.parse(logsRaw) : [];
     currentUser = userRaw ? JSON.parse(userRaw) : null;
+    products = prodsRaw ? JSON.parse(prodsRaw) : [];
   }
   function saveToStorage() {
     localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(inventory));
     localStorage.setItem(STORAGE_KEYS.LOGS, JSON.stringify(logs));
     localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(currentUser));
+    localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
   }
-  function showLoginScreen() {
-    loginScreen.style.display = 'flex';
-    appContainer.classList.remove('visible');
-    appContainer.style.display = 'none';
-    logoutBtn.classList.remove('visible');
-    logoutBtn.style.visibility = 'hidden';
-    loginError.style.display = 'none';
-    loginForm.reset();
-    loginIdInput.focus();
-  }
-  function showAppScreen() {
-    loginScreen.style.display = 'none';
-    appContainer.classList.add('visible');
-    appContainer.style.display = 'flex';
-    logoutBtn.classList.add('visible');
-    logoutBtn.style.visibility = 'visible';
-    tabsNav.classList.add('visible');
-    updateUIForRole();
-    renderInventoryTable();
-    populateMaterialTypeFilter();
-    populateMaterialSelects();
-    renderLogs();
-  }
-  loginForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const idVal = loginIdInput.value.trim().toLowerCase();
-    const passwordVal = loginPasswordInput.value;
-    const user = users.find(u => u.id.toLowerCase() === idVal && u.password === passwordVal);
-    if(user) {
-      currentUser = { id: user.id, role: user.role, name: user.name };
-      saveToStorage();
-      showAppScreen();
-    } else {
-      loginError.textContent = 'ID o contraseña incorrectos.';
-      loginError.style.display = 'block';
-    }
-  });
-  logoutBtn.addEventListener('click', () => {
-    currentUser = null;
-    saveToStorage();
-    showLoginScreen();
-  });
-  function updateUIForRole() {
-    const isAdmin = currentUser?.role === 'admin';
-    addMaterialForm.style.display = isAdmin ? 'grid' : 'none';
-    entradaForm.style.display = isAdmin ? 'flex' : 'none';
-    salidaForm.style.display = 'flex';
-  }
+
+  // Calculate sqft helpers
   function calculateSqft(length, width, thickness) {
     return +((length * width * thickness) / 12).toFixed(3);
   }
   function calculateTotalSqft(units, sqftPerUnit) {
     return +(units * sqftPerUnit).toFixed(3);
   }
-  function updateTotalSqftField() {
-    const lengthVal = parseFloat(lengthInput.value);
-    const widthVal = parseFloat(widthInput.value);
-    const thicknessVal = parseFloat(thicknessInput.value);
-    const unitsVal = parseInt(unitCountInput.value);
-    if (!isNaN(lengthVal) && !isNaN(widthVal) && !isNaN(thicknessVal) && !isNaN(unitsVal)) {
-      const sqftPerUnit = calculateSqft(lengthVal, widthVal, thicknessVal);
-      const totalSqft = calculateTotalSqft(unitsVal, sqftPerUnit);
-      totalSqftInput.value = totalSqft + ' pies²';
-    } else {
-      totalSqftInput.value = '';
-    }
+
+  // Group inventory by product name (materialName)
+  function groupInventorySummary() {
+    const summaryMap = new Map();
+    inventory.forEach(item => {
+      const key = item.materialName.toLowerCase();
+      let group = summaryMap.get(key);
+      if(!group) {
+        group = {
+          materialName: item.materialName,
+          units: 0,
+          totalSqft: 0
+        };
+        summaryMap.set(key, group);
+      }
+      group.units += item.units;
+      group.totalSqft += item.totalSqft;
+    });
+    return Array.from(summaryMap.values()).sort((a,b) => a.materialName.localeCompare(b.materialName));
   }
-  lengthInput.addEventListener('input', updateTotalSqftField);
-  widthInput.addEventListener('input', updateTotalSqftField);
-  thicknessInput.addEventListener('input', updateTotalSqftField);
-  unitCountInput.addEventListener('input', updateTotalSqftField);
-  function renderInventoryTable() {
-    const filteredInventory = filterInventory(inventory);
+
+  // Render inventory summary table
+  function renderInventorySummary() {
     inventoryTableBody.innerHTML = '';
-    if(filteredInventory.length === 0) {
-      inventoryTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; font-style: italic; color:#666;">No hay materiales que coincidan con los filtros.</td></tr>`;
+    const summary = groupInventorySummary();
+    if(summary.length === 0) {
+      inventoryTableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; font-style: italic; color:#666;">No hay materiales en inventario.</td></tr>`;
       return;
     }
-    filteredInventory.forEach(item => {
+    summary.forEach(item => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${item.materialName}</td>
         <td>${item.units}</td>
-        <td>${item.length.toFixed(2)}</td>
-        <td>${item.width.toFixed(2)}</td>
-        <td>${item.thickness.toFixed(2)}</td>
         <td>${item.totalSqft.toFixed(3)}</td>
-        <td>${item.location}</td>
-        <td class="actions">
-          <button title="Eliminar material" aria-label="Eliminar material" data-id="${item.id}"><span class="material-icons">delete</span></button>
-        </td>
       `;
       inventoryTableBody.appendChild(tr);
     });
   }
-  function filterInventory(items) {
-    return items.filter(item => {
-      if(filterMaterialName.value && item.materialName !== filterMaterialName.value) return false;
-      if(filterLengthMinInput.value && item.length < parseFloat(filterLengthMinInput.value)) return false;
-      if(filterLengthMaxInput.value && item.length > parseFloat(filterLengthMaxInput.value)) return false;
-      if(filterWidthMinInput.value && item.width < parseFloat(filterWidthMinInput.value)) return false;
-      if(filterWidthMaxInput.value && item.width > parseFloat(filterWidthMaxInput.value)) return false;
-      if(filterThicknessMinInput.value && item.thickness < parseFloat(filterThicknessMinInput.value)) return false;
-      if(filterThicknessMaxInput.value && item.thickness > parseFloat(filterThicknessMaxInput.value)) return false;
-      return true;
-    });
-  }
-  [filterMaterialName, filterLengthMinInput, filterLengthMaxInput, filterWidthMinInput, filterWidthMaxInput, filterThicknessMinInput, filterThicknessMaxInput].forEach(input => {
-    input.addEventListener('input', () => {
-      renderInventoryTable();
-    });
-  });
-  clearFiltersBtn.addEventListener('click', () => {
-    filterMaterialName.value = '';
-    filterLengthMinInput.value = '';
-    filterLengthMaxInput.value = '';
-    filterWidthMinInput.value = '';
-    filterWidthMaxInput.value = '';
-    filterThicknessMinInput.value = '';
-    filterThicknessMaxInput.value = '';
-    renderInventoryTable();
-  });
-  addMaterialForm.addEventListener('submit', e => {
-    e.preventDefault();
-    if(currentUser?.role !== 'admin') {
-      alert('No tienes permisos para agregar materiales.');
-      return;
-    }
-    const materialName = materialNameInput.value.trim();
-    const units = parseInt(unitCountInput.value);
-    const length = parseFloat(lengthInput.value);
-    const width = parseFloat(widthInput.value);
-    const thickness = parseFloat(thicknessInput.value);
-    const location = locationInput.value.trim();
-    if (!materialName || !units || !length || !width || !thickness || !location) {
-      alert('Completa todos los campos correctamente.');
-      return;
-    }
-    const existingIndex = inventory.findIndex(i =>
-      i.materialName.toLowerCase() === materialName.toLowerCase()
-      && i.length === length
-      && i.width === width
-      && i.thickness === thickness
-      && i.location.toLowerCase() === location.toLowerCase()
-    );
-    const sqftPerUnit = calculateSqft(length, width, thickness);
-    if(existingIndex >= 0) {
-      inventory[existingIndex].units += units;
-      inventory[existingIndex].totalSqft = calculateTotalSqft(inventory[existingIndex].units, sqftPerUnit);
-    } else {
-      inventory.push({
-        id: crypto.randomUUID(),
-        materialName,
-        units,
-        length,
-        width,
-        thickness,
-        sqftPerUnit,
-        totalSqft: calculateTotalSqft(units, sqftPerUnit),
-        location
-      });
-    }
-    addLogEntry('entrada', inventory.find(i => i.materialName.toLowerCase() === materialName.toLowerCase() && i.length === length && i.width === width && i.thickness === thickness && i.location.toLowerCase() === location.toLowerCase()).id, units);
-    saveToStorage();
-    renderInventoryTable();
-    renderLogs();
-    populateMaterialTypeFilter();
-    populateMaterialSelects();
-    addMaterialForm.reset();
-    totalSqftInput.value = '';
-    materialNameInput.focus();
-  });
-  inventoryTableBody.addEventListener('click', e => {
-    if(e.target.matches('button,button *')) {
-      const btn = e.target.closest('button');
-      const id = btn.getAttribute('data-id');
-      if(!id) return;
-      if(currentUser?.role !== 'admin') {
-        alert('No tienes permisos para eliminar materiales.');
-        return;
-      }
-      if(confirm('¿Seguro deseas eliminar este material y todo su historial?')) {
-        inventory = inventory.filter(i => i.id !== id);
-        logs = logs.filter(l => l.materialId !== id);
-        saveToStorage();
-        renderInventoryTable();
-        renderLogs();
-        populateMaterialTypeFilter();
-        populateMaterialSelects();
-      }
-    }
-  });
-  function addLogEntry(type, materialId, quantity) {
-    logs.push({
-      id: crypto.randomUUID(),
-      materialId,
-      type,
-      quantity,
-      userId: currentUser?.id ?? 'unknown',
-      timestamp: new Date().toISOString()
-    });
-  }
-  function renderLogs() {
-    renderEntradaLog();
-    renderSalidaLog();
-  }
-  function renderEntradaLog() {
-    entradaLogBody.innerHTML = '';
-    const entradas = logs.filter(l => l.type === 'entrada').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-    if(entradas.length === 0) {
-      entradaLogBody.innerHTML = `<tr><td colspan="4" style="text-align:center; font-style: italic; color:#666;">No hay entradas registradas.</td></tr>`;
-      return;
-    }
-    entradas.forEach(logItem => {
-      const material = inventory.find(i => i.id === logItem.materialId);
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${new Date(logItem.timestamp).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</td>
-        <td>${material ? material.materialName : '[Eliminado]'}</td>
-        <td>${logItem.quantity}</td>
-        <td>${getUserDisplayName(logItem.userId)}</td>
-      `;
-      entradaLogBody.appendChild(tr);
-    });
-  }
-  function renderSalidaLog() {
-    salidaLogBody.innerHTML = '';
-    const salidas = logs.filter(l => l.type === 'salida').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-    if(salidas.length === 0) {
-      salidaLogBody.innerHTML = `<tr><td colspan="4" style="text-align:center; font-style: italic; color:#666;">No hay salidas registradas.</td></tr>`;
-      return;
-    }
-    salidas.forEach(logItem => {
-      const material = inventory.find(i => i.id === logItem.materialId);
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${new Date(logItem.timestamp).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</td>
-        <td>${material ? material.materialName : '[Eliminado]'}</td>
-        <td>${logItem.quantity}</td>
-        <td>${getUserDisplayName(logItem.userId)}</td>
-      `;
-      salidaLogBody.appendChild(tr);
-    });
-  }
-  function getUserDisplayName(userId) {
-    if(userId === 'unknown') return 'Desconocido';
-    const user = users.find(u => u.id === userId);
-    return user ? user.name : 'Desconocido';
-  }
-  function populateMaterialTypeFilter() {
-    const uniqueMaterials = [...new Set(inventory.map(i => i.materialName))].sort((a,b) => a.localeCompare(b));
-    const currentSelection = filterMaterialName.value;
-    filterMaterialName.innerHTML = '<option value="" selected>Todos</option>';
-    uniqueMaterials.forEach(name => {
-      const opt = document.createElement('option');
-      opt.value = name;
-      opt.textContent = name;
-      filterMaterialName.appendChild(opt);
-    });
-    if(uniqueMaterials.includes(currentSelection)) {
-      filterMaterialName.value = currentSelection;
-    }
-  }
-  function populateMaterialSelects() {
-    populateSelect(entradaMaterialSelect);
-    populateSelect(salidaMaterialSelect);
-  }
-  function populateSelect(selectElem) {
-    selectElem.innerHTML = '';
-    if(inventory.length === 0) {
-      const optionNone = document.createElement('option');
-      optionNone.value = '';
-      optionNone.textContent = '(No hay materiales)';
-      optionNone.disabled = true;
-      selectElem.appendChild(optionNone);
-      selectElem.disabled = true;
-      return;
-    }
-    selectElem.disabled = false;
-    const optionDefault = document.createElement('option');
-    optionDefault.value = '';
-    optionDefault.textContent = '-- Selecciona un material --';
-    optionDefault.selected = true;
-    optionDefault.disabled = true;
-    selectElem.appendChild(optionDefault);
-    inventory.forEach(item => {
+
+  // Populate product select for inventory tab
+  function populateProductSelect() {
+    productSelect.innerHTML = `<option value="">-- Todos los productos --</option>`;
+    // Use products list for select (unique product names)
+    products.forEach(p => {
       const option = document.createElement('option');
-      option.value = item.id;
-      option.textContent = `${item.materialName} (Unidades: ${item.units})`;
-      selectElem.appendChild(option);
+      option.value = p.name;
+      option.textContent = p.name;
+      productSelect.appendChild(option);
     });
   }
-  entradaForm.addEventListener('submit', e => {
-    e.preventDefault();
-    if(currentUser?.role !== 'admin') {
-      alert('No tienes permisos para registrar entradas.');
+
+  // Populate entrada product select with products list
+  function populateEntradaProductSelect() {
+    entradaProductSelect.innerHTML = `<option value="" disabled selected>-- Selecciona un producto --</option>`;
+    products.forEach(p => {
+      const option = document.createElement('option');
+      option.value = p.name;
+      option.textContent = p.name;
+      entradaProductSelect.appendChild(option);
+    });
+  }
+
+  // Populate salida material variants like before (no change)
+  function populateSalidaMaterialVariants() {
+    salidaMaterialSelectEl.innerHTML = '';
+    if(inventory.length === 0) {
+      const optNone = document.createElement('option');
+      optNone.value = '';
+      optNone.textContent = '(No hay materiales disponibles)';
+      optNone.disabled = true;
+      salidaMaterialSelectEl.appendChild(optNone);
+      salidaMaterialSelectEl.disabled = true;
+      salidaSubmitBtnEl.disabled = true;
       return;
     }
-    const materialId = entradaMaterialSelect.value;
-    const quantity = parseInt(entradaQuantityInput.value);
-    if(!materialId) {
-      alert('Selecciona un material válido.');
+    salidaMaterialSelectEl.disabled = false;
+    const optDefault = document.createElement('option');
+    optDefault.value = '';
+    optDefault.textContent = '-- Selecciona material y medidas --';
+    optDefault.selected = true;
+    optDefault.disabled = true;
+    salidaMaterialSelectEl.appendChild(optDefault);
+    inventory.forEach(item => {
+      const opt = document.createElement('option');
+      opt.value = item.id;
+      opt.textContent = `${item.materialName} - Largo: ${item.length.toFixed(2)} pies, Ancho: ${item.width.toFixed(2)} pulg, Espesor: ${item.thickness.toFixed(2)} pulg, Ubicación: ${item.location} (Unidades: ${item.units})`;
+      salidaMaterialSelectEl.appendChild(opt);
+    });
+    clearSalidaDetailFields();
+  }
+  function clearSalidaDetailFields() {
+    salidaLengthEl.value = '';
+    salidaWidthEl.value = '';
+    salidaThicknessEl.value = '';
+    salidaLocationEl.value = '';
+    salidaAvailableSqftEl.value = '';
+    salidaQuantityEl.value = '';
+    salidaSubmitBtnEl.disabled = true;
+  }
+  salidaMaterialSelectEl.addEventListener('change', () => {
+    const selectedId = salidaMaterialSelectEl.value;
+    if (!selectedId) {
+      clearSalidaDetailFields();
       return;
     }
-    if(isNaN(quantity) || quantity < 1) {
-      alert('Ingresa una cantidad válida mayor que cero.');
+    const material = inventory.find(i => i.id === selectedId);
+    if (!material) {
+      clearSalidaDetailFields();
+      return;
+    }
+    salidaLengthEl.value = material.length.toFixed(2);
+    salidaWidthEl.value = material.width.toFixed(2);
+    salidaThicknessEl.value = material.thickness.toFixed(2);
+    salidaLocationEl.value = material.location;
+    salidaAvailableSqftEl.value = material.totalSqft.toFixed(3) + ' pies²';
+    salidaQuantityEl.value = '';
+    salidaSubmitBtnEl.disabled = true;
+  });
+
+  salidaQuantityEl.addEventListener('input', () => {
+    validateSalidaForm();
+  });
+  function validateSalidaForm() {
+    const materialId = salidaMaterialSelectEl.value;
+    const quantity = parseInt(salidaQuantityEl.value);
+    if(!materialId || isNaN(quantity) || quantity < 1) {
+      salidaSubmitBtnEl.disabled = true;
       return;
     }
     const material = inventory.find(i => i.id === materialId);
-    if(!material) {
-      alert('Material no encontrado.');
+    if(!material || quantity > material.units) {
+      salidaSubmitBtnEl.disabled = true;
       return;
     }
-    material.units += quantity;
-    material.totalSqft = calculateTotalSqft(material.units, material.sqftPerUnit);
-    addLogEntry('entrada', materialId, quantity);
-    saveToStorage();
-    renderInventoryTable();
-    renderLogs();
-    populateMaterialTypeFilter();
-    populateMaterialSelects();
-    entradaForm.reset();
-    entradaMaterialSelect.focus();
-  });
-  salidaForm.addEventListener('submit', e => {
+    salidaSubmitBtnEl.disabled = false;
+  }
+  salidaFormEl.addEventListener('submit', e => {
     e.preventDefault();
-    const materialId = salidaMaterialSelect.value;
-    const quantity = parseInt(salidaQuantityInput.value);
+    const materialId = salidaMaterialSelectEl.value;
+    const quantity = parseInt(salidaQuantityEl.value);
     if(!materialId) {
-      alert('Selecciona un material válido.');
+      alert('Selecciona un material válido con sus medidas.');
       return;
     }
     if(isNaN(quantity) || quantity < 1) {
@@ -953,81 +1212,477 @@
     material.totalSqft = calculateTotalSqft(material.units, material.sqftPerUnit);
     addLogEntry('salida', materialId, quantity);
     saveToStorage();
-    renderInventoryTable();
+    renderInventorySummary();
+    populateProductSelect();
+    populateEntradaProductSelect();
+    populateSalidaMaterialVariants();
     renderLogs();
-    populateMaterialTypeFilter();
-    populateMaterialSelects();
-    salidaForm.reset();
-    salidaMaterialSelect.focus();
+    salidaFormEl.reset();
+    clearSalidaDetailFields();
+    salidaMaterialSelectEl.focus();
   });
-  const tabButtons = [tabBtnInventory, tabBtnEntradas, tabBtnSalidas];
-  const tabs = [tabInventory, tabEntradas, tabSalidas];
-  tabButtons.forEach((btn, idx) => {
-    btn.addEventListener('click', () => activateTab(idx));
-  });
-  function activateTab(index) {
-    tabButtons.forEach((btn,i) => {
-      btn.classList.toggle('active', i === index);
-      btn.setAttribute('aria-selected', i === index ? 'true' : 'false');
-      btn.tabIndex = i === index ? 0 : -1;
-    });
-    tabs.forEach((tab,i) => {
-      tab.classList.toggle('active', i === index);
-      if(i === index) tab.focus();
-    });
-  }
-  const downloadReportBtn = document.getElementById('downloadReportBtn');
-  downloadReportBtn.addEventListener('click', () => {
-    if(inventory.length === 0) {
-      alert('No hay materiales para generar reporte.');
+
+  // Logs render functions as before...
+
+  function renderEntradaLog() {
+    entradaLogBodyEl.innerHTML = '';
+    const entradas = logs.filter(l => l.type === 'entrada').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    if(entradas.length === 0) {
+      entradaLogBodyEl.innerHTML = `<tr><td colspan="5" style="text-align:center; font-style: italic; color:#ffc4b6;">No hay entradas registradas.</td></tr>`;
       return;
     }
-    const inventoryHeaders = [
-      'Nombre del material', 'Unidades', 
-      'Largo (pies)', 'Ancho (pulgadas)', 'Espesor (pulgadas)',
-      'Pies cuadrados totales', 'Ubicación'
-    ];
-    const inventoryData = inventory.map(item => [
-      item.materialName,
-      item.units,
-      item.length,
-      item.width,
-      item.thickness,
-      item.totalSqft,
-      item.location
-    ]);
-    const wsInventory = XLSX.utils.aoa_to_sheet([inventoryHeaders, ...inventoryData]);
-    XLSX.utils.sheet_add_aoa(wsInventory, [['Inventario Actual']], { origin: 'A1'});
-    XLSX.utils.sheet_add_aoa(wsInventory, [['']], { origin: 'A2'});
-    const totalUnits = inventory.reduce((acc, i) => acc + i.units, 0);
-    const totalSquareFeet = inventory.reduce((acc, i) => acc + i.totalSqft, 0);
-    const uniqueMaterialsCount = [...new Set(inventory.map(i => i.materialName))].length;
-    const dashboardData = [
-      ['Dashboard Resumen'],
-      [],
-      ['Total materiales distintos', uniqueMaterialsCount],
-      ['Total de unidades', totalUnits],
-      ['Pies cuadrados totales', totalSquareFeet.toFixed(3)]
-    ];
-    const wsDashboard = XLSX.utils.aoa_to_sheet(dashboardData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, wsDashboard, 'Dashboard');
-    XLSX.utils.book_append_sheet(wb, wsInventory, 'Inventario');
-    const now = new Date();
-    const filename = `Reporte_Inventario_${now.toISOString().slice(0,10)}.xlsx`;
-    XLSX.writeFile(wb, filename);
+    entradas.forEach(logItem => {
+      const material = inventory.find(i => i.id === logItem.materialId);
+      const tr = document.createElement('tr');
+      tr.dataset.logId = logItem.id;
+      tr.innerHTML = `
+        <td>${new Date(logItem.timestamp).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</td>
+        <td>${material ? material.materialName : '[Eliminado]'}</td>
+        <td class="logQuantity">${logItem.quantity}</td>
+        <td>${getUserDisplayName(logItem.userId)}</td>
+        <td class="logActions"></td>
+      `;
+      if(currentUser?.role === 'admin') {
+        const actionsTd = tr.querySelector('.logActions');
+        // Edit button
+        const editBtn = document.createElement('button');
+        editBtn.title = 'Editar entrada';
+        editBtn.ariaLabel = 'Editar entrada';
+        editBtn.innerHTML = `<span class="material-icons" aria-hidden="true">edit</span>`;
+        editBtn.addEventListener('click', () => openEditLogModal(logItem, 'entrada'));
+        actionsTd.appendChild(editBtn);
+        // Delete button
+        const delBtn = document.createElement('button');
+        delBtn.title = 'Eliminar entrada';
+        delBtn.ariaLabel = 'Eliminar entrada';
+        delBtn.innerHTML = `<span class="material-icons" aria-hidden="true">delete_forever</span>`;
+        delBtn.addEventListener('click', () => deleteLogEntry(logItem));
+        actionsTd.appendChild(delBtn);
+      }
+      entradaLogBodyEl.appendChild(tr);
+    });
+  }
+  function renderSalidaLog() {
+    salidaLogBodyEl.innerHTML = '';
+    const salidas = logs.filter(l => l.type === 'salida').sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    if(salidas.length === 0) {
+      salidaLogBodyEl.innerHTML = `<tr><td colspan="5" style="text-align:center; font-style: italic; color:#ffc4b6;">No hay salidas registradas.</td></tr>`;
+      return;
+    }
+    salidas.forEach(logItem => {
+      const material = inventory.find(i => i.id === logItem.materialId);
+      const tr = document.createElement('tr');
+      tr.dataset.logId = logItem.id;
+      tr.innerHTML = `
+        <td>${new Date(logItem.timestamp).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'})}</td>
+        <td>${material ? material.materialName : '[Eliminado]'}</td>
+        <td class="logQuantity">${logItem.quantity}</td>
+        <td>${getUserDisplayName(logItem.userId)}</td>
+        <td class="logActions"></td>
+      `;
+      if(currentUser?.role === 'admin') {
+        const actionsTd = tr.querySelector('.logActions');
+        // Edit button
+        const editBtn = document.createElement('button');
+        editBtn.title = 'Editar salida';
+        editBtn.ariaLabel = 'Editar salida';
+        editBtn.innerHTML = `<span class="material-icons" aria-hidden="true">edit</span>`;
+        editBtn.addEventListener('click', () => openEditLogModal(logItem, 'salida'));
+        actionsTd.appendChild(editBtn);
+        // Delete button
+        const delBtn = document.createElement('button');
+        delBtn.title = 'Eliminar salida';
+        delBtn.ariaLabel = 'Eliminar salida';
+        delBtn.innerHTML = `<span class="material-icons" aria-hidden="true">delete_forever</span>`;
+        delBtn.addEventListener('click', () => deleteLogEntry(logItem));
+        actionsTd.appendChild(delBtn);
+      }
+      salidaLogBodyEl.appendChild(tr);
+    });
+  }
+
+  function getUserDisplayName(userId) {
+    if(userId === 'unknown') return 'Desconocido';
+    const user = users.find(u => u.id === userId);
+    return user ? user.name : 'Desconocido';
+  }
+
+  function addLogEntry(type, materialId, quantity) {
+    logs.push({
+      id: crypto.randomUUID(),
+      materialId,
+      type,
+      quantity,
+      userId: currentUser?.id ?? 'unknown',
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  function deleteLogEntry(log) {
+    if(!confirm('¿Seguro deseas eliminar este registro? Esta acción no se puede deshacer.')) return;
+    if(currentUser?.role !== 'admin') {
+      alert('No tienes permisos para eliminar registros.');
+      return;
+    }
+    const material = inventory.find(i => i.id === log.materialId);
+    if(material) {
+      if(log.type === 'entrada') {
+        if(log.quantity > material.units) {
+          alert('No se puede eliminar esta entrada porque la cantidad excede las unidades actuales en inventario.');
+          return;
+        }
+        material.units -= log.quantity;
+        material.totalSqft = calculateTotalSqft(material.units, material.sqftPerUnit);
+      } else if(log.type === 'salida') {
+        material.units += log.quantity;
+        material.totalSqft = calculateTotalSqft(material.units, material.sqftPerUnit);
+      }
+    }
+    logs = logs.filter(l => l.id !== log.id);
+    saveToStorage();
+    renderInventorySummary();
+    populateProductSelect();
+    populateEntradaProductSelect();
+    populateSalidaMaterialVariants();
+    renderLogs();
+  }
+
+  function openEditLogModal(log, type) {
+    if(currentUser?.role !== 'admin') {
+      alert('No tienes permisos para editar registros.');
+      return;
+    }
+    editingLog = log;
+    editLogQuantityInput.value = log.quantity;
+    editLogModalBackdrop.style.display = 'flex';
+    editLogQuantityInput.focus();
+    editLogForm.onsubmit = e => {
+      e.preventDefault();
+      saveEditedLogQuantity(type);
+    };
+  }
+  function saveEditedLogQuantity(type) {
+    const newQuantity = parseInt(editLogQuantityInput.value);
+    if(isNaN(newQuantity) || newQuantity < 1) {
+      alert('Ingresa una cantidad válida, mayor que cero.');
+      return;
+    }
+    if(!editingLog) return;
+    const quantityDiff = newQuantity - editingLog.quantity;
+    const material = inventory.find(i => i.id === editingLog.materialId);
+    if(!material) {
+      alert('Material no encontrado.');
+      closeEditLogModal();
+      return;
+    }
+    if(type === 'entrada') {
+      if(quantityDiff < 0 && Math.abs(quantityDiff) > material.units) {
+        alert('No puede disminuir a esa cantidad porque excede las unidades existentes.');
+        return;
+      }
+      material.units += quantityDiff;
+    } else if(type === 'salida') {
+      if(quantityDiff > 0 && quantityDiff > material.units) {
+        alert('No puede aumentar la cantidad porque excede las unidades disponibles.');
+        return;
+      }
+      material.units -= quantityDiff;
+    }
+    material.totalSqft = calculateTotalSqft(material.units, material.sqftPerUnit);
+    editingLog.quantity = newQuantity;
+    saveToStorage();
+    renderInventorySummary();
+    populateProductSelect();
+    populateEntradaProductSelect();
+    populateSalidaMaterialVariants();
+    renderLogs();
+    closeEditLogModal();
+  }
+  function closeEditLogModal() {
+    editingLog = null;
+    editLogModalBackdrop.style.display = 'none';
+  }
+  cancelEditBtn.addEventListener('click', closeEditLogModal);
+  editLogModalBackdrop.addEventListener('click', e => {
+    if(e.target === editLogModalBackdrop) closeEditLogModal();
   });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && editLogModalBackdrop.style.display === 'flex') {
+      closeEditLogModal();
+    }
+  });
+
+  // Setup & initialization
   function setup() {
     loadFromStorage();
     if(currentUser) {
       showAppScreen();
+      renderInventorySummary();
+      populateProductSelect();
+      populateEntradaProductSelect();
+      populateSalidaMaterialVariants();
+      renderLogs();
+      renderProductsList();
     } else {
       showLoginScreen();
     }
-    populateMaterialTypeFilter();
   }
+  function showLoginScreen() {
+    loginScreen.style.display = 'flex';
+    appContainer.classList.remove('visible');
+    appContainer.style.display = 'none';
+    logoutBtn.classList.remove('visible');
+    logoutBtn.style.visibility = 'hidden';
+    loginError.style.display = 'none';
+    loginForm.reset();
+    loginIdInput.focus();
+    tabsNav.classList.remove('visible');
+  }
+  function showAppScreen() {
+    loginScreen.style.display = 'none';
+    appContainer.classList.add('visible');
+    appContainer.style.display = 'flex';
+    logoutBtn.classList.add('visible');
+    logoutBtn.style.visibility = 'visible';
+    tabsNav.classList.add('visible');
+  }
+
+  // Product form submit handler
+  productsForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if(currentUser?.role !== 'admin') {
+      alert('No tienes permisos para agregar productos.');
+      return;
+    }
+    const name = productNameInput.value.trim();
+    const description = productDescriptionInput.value.trim();
+    if(!name) {
+      alert('El nombre del producto es obligatorio.');
+      return;
+    }
+    // Check for duplicate product name (case-insensitive)
+    if(products.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+      alert('Ya existe un producto con ese nombre.');
+      return;
+    }
+    const newProduct = {
+      id: crypto.randomUUID(),
+      name,
+      description
+    };
+    products.push(newProduct);
+    saveToStorage();
+    renderProductsList();
+    // Refresh selects that depend on products
+    populateProductSelect();
+    populateEntradaProductSelect();
+    // Reset form
+    productsForm.reset();
+    productNameInput.focus();
+  });
+
+  // Render products list in Products tab
+  function renderProductsList() {
+    productsUl.innerHTML = '';
+    if(products.length === 0) {
+      productsUl.innerHTML = '<li style="font-style: italic; color: #a5b4fc;">No hay productos creados.</li>';
+      return;
+    }
+    products.forEach(p => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span class="product-name" title="${p.description || ''}">${p.name}</span>
+      `;
+      productsUl.appendChild(li);
+    });
+  }
+
+  // Event listeners for variant modal as before
+  [
+    variantFilterLengthMin, variantFilterLengthMax,
+    variantFilterWidthMin, variantFilterWidthMax,
+    variantFilterThicknessMin, variantFilterThicknessMax
+  ].forEach(input => {
+    input.addEventListener('input', () => {
+      if(currentProductNameSpan.textContent) {
+        renderVariantList(currentProductNameSpan.textContent);
+      }
+    });
+  });
+  clearVariantFiltersBtn.addEventListener('click', () => {
+    clearVariantFilterInputs();
+    if(currentProductNameSpan.textContent) {
+      renderVariantList(currentProductNameSpan.textContent);
+    }
+  });
+  closeVariantModalBtn.addEventListener('click', () => {
+    closeVariantModal();
+  });
+  variantModalBackdrop.addEventListener('click', e => {
+    if(e.target === variantModalBackdrop) closeVariantModal();
+  });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && variantModalBackdrop.style.display === 'flex') {
+      closeVariantModal();
+    }
+  });
+
+  // Product select change handler inventory tab
+  productSelect.addEventListener('change', () => {
+    if(productSelect.value !== '') {
+      openVariantModalForProduct(productSelect.value);
+    }
+  });
+
+  // Open variants modal helper
+  function openVariantModalForProduct(productName) {
+    currentProductNameSpan.textContent = productName;
+    variantModalBackdrop.style.display = 'flex';
+    clearVariantFilterInputs();
+    renderVariantList(productName);
+  }
+  function closeVariantModal() {
+    variantModalBackdrop.style.display = 'none';
+    currentProductNameSpan.textContent = '';
+    variantListTbody.innerHTML = '';
+    clearVariantFilterInputs();
+    productSelect.value = '';
+  }
+  function clearVariantFilterInputs() {
+    variantFilterLengthMin.value = '';
+    variantFilterLengthMax.value = '';
+    variantFilterWidthMin.value = '';
+    variantFilterWidthMax.value = '';
+    variantFilterThicknessMin.value = '';
+    variantFilterThicknessMax.value = '';
+  }
+
+  // Filter variants same as before
+  function getFilteredVariants(productName) {
+    const variants = inventory.filter(i => i.materialName === productName);
+    const lenMin = parseFloat(variantFilterLengthMin.value);
+    const lenMax = parseFloat(variantFilterLengthMax.value);
+    const widMin = parseFloat(variantFilterWidthMin.value);
+    const widMax = parseFloat(variantFilterWidthMax.value);
+    const thkMin = parseFloat(variantFilterThicknessMin.value);
+    const thkMax = parseFloat(variantFilterThicknessMax.value);
+    return variants.filter(v => {
+      if(!isNaN(lenMin) && v.length < lenMin) return false;
+      if(!isNaN(lenMax) && v.length > lenMax) return false;
+      if(!isNaN(widMin) && v.width < widMin) return false;
+      if(!isNaN(widMax) && v.width > widMax) return false;
+      if(!isNaN(thkMin) && v.thickness < thkMin) return false;
+      if(!isNaN(thkMax) && v.thickness > thkMax) return false;
+      return true;
+    });
+  }
+
+  // Entrada form submit handler (adjusted to use selected product)
+  entradaFormEl.addEventListener('submit', e => {
+    e.preventDefault();
+    if(currentUser?.role !== 'admin') {
+      alert('No tienes permisos para registrar entradas.');
+      return;
+    }
+    const productName = entradaProductSelect.value;
+    const units = parseInt(entradaUnitCountEl.value);
+    const length = parseFloat(entradaLengthEl.value);
+    const width = parseFloat(entradaWidthEl.value);
+    const thickness = parseFloat(entradaThicknessEl.value);
+    const location = entradaLocationEl.value.trim();
+    if(!productName || !units || !length || !width || !thickness || !location) {
+      alert('Completa todos los campos correctamente para la entrada.');
+      return;
+    }
+    if(units < 1) {
+      alert('La cantidad de unidades debe ser al menos 1.');
+      return;
+    }
+    const existingIndex = inventory.findIndex(i =>
+      i.materialName.toLowerCase() === productName.toLowerCase() &&
+      i.length === length &&
+      i.width === width &&
+      i.thickness === thickness &&
+      i.location.toLowerCase() === location.toLowerCase()
+    );
+    const sqftPerUnit = calculateSqft(length, width, thickness);
+    if(existingIndex >= 0) {
+      inventory[existingIndex].units += units;
+      inventory[existingIndex].totalSqft = calculateTotalSqft(inventory[existingIndex].units, sqftPerUnit);
+      addLogEntry('entrada', inventory[existingIndex].id, units);
+    } else {
+      const newItem = {
+        id: crypto.randomUUID(),
+        materialName: productName,
+        units,
+        length,
+        width,
+        thickness,
+        sqftPerUnit,
+        totalSqft: calculateTotalSqft(units, sqftPerUnit),
+        location
+      };
+      inventory.push(newItem);
+      addLogEntry('entrada', newItem.id, units);
+    }
+    saveToStorage();
+    renderInventorySummary();
+    populateProductSelect();
+    populateEntradaProductSelect();
+    populateSalidaMaterialVariants();
+    renderLogs();
+    entradaFormEl.reset();
+    entradaProductSelect.focus();
+  });
+
+  // Tab navigation
+  tabButtons.forEach((btn, idx) => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach((b,i) => {
+        b.classList.toggle('active', i === idx);
+        b.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+        b.tabIndex = i === idx ? 0 : -1;
+      });
+      tabs.forEach((t,i) => {
+        t.classList.toggle('active', i === idx);
+        if(i === idx) t.focus();
+      });
+    });
+  });
+
+  // Login form submit
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const idVal = loginIdInput.value.trim().toLowerCase();
+    const passwordVal = loginPasswordInput.value;
+    const user = users.find(u => u.id.toLowerCase() === idVal && u.password === passwordVal);
+    if(user) {
+      currentUser = { id: user.id, role: user.role, name: user.name };
+      saveToStorage();
+      setup();
+    } else {
+      loginError.textContent = 'ID o contraseña incorrectos.';
+      loginError.style.display = 'block';
+    }
+  });
+
+  // Logout
+  logoutBtn.addEventListener('click', () => {
+    currentUser = null;
+    saveToStorage();
+    setup();
+  });
+
+  // Render all logs
+  function renderLogs() {
+    renderEntradaLog();
+    renderSalidaLog();
+  }
+
   setup();
+
 </script>
 </body>
 </html>
+
 
